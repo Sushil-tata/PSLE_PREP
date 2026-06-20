@@ -1,0 +1,10 @@
+{
+  "name": "nush-dsa-prep",
+  "private": true,
+  "version": "0.1.0",
+  "description": "NUSH DSA prep project",
+  "scripts": {
+    "start": "echo \"Add your start command\"",
+    "test": "echo \"Add your test command\""
+  }
+}
