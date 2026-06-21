@@ -366,8 +366,10 @@ const verifyQuizBatch = (items) => {
     const distractorIssues = [];
     const inferredLevel = inferLevelFromQuestion(item.question);
     const levelMismatch = inferredLevel !== item.level;
-    const assessedLoadBearing = inferLoadBearing(item);
-    const claimedLoadBearing = Boolean(item.context_is_load_bearing);
+    const correctedLevel = levelMismatch ? inferredLevel : item.level;
+    const contextRelevant = correctedLevel === "L2" || correctedLevel === "L3";
+    const claimedLoadBearing = contextRelevant ? Boolean(item.context_is_load_bearing) : null;
+    const assessedLoadBearing = contextRelevant ? inferLoadBearing(item) : null;
 
     if (levelMismatch) {
       factualIssues.push(`LEVEL_MISMATCH: suggested ${inferredLevel}, received ${item.level}.`);
@@ -387,11 +389,11 @@ const verifyQuizBatch = (items) => {
       distractorIssues.push("WEAK_DISTRACTOR: options are not distinct.");
     }
 
-    if ((item.level === "L2" || item.level === "L3") && !assessedLoadBearing) {
+    if (contextRelevant && !assessedLoadBearing) {
       factualIssues.push("COSMETIC_CONTEXT: context is not structurally required for solving.");
     }
 
-    if (claimedLoadBearing !== assessedLoadBearing) {
+    if (contextRelevant && claimedLoadBearing !== assessedLoadBearing) {
       factualIssues.push(`LOAD_BEARING_MISMATCH: claimed ${claimedLoadBearing}, assessed ${assessedLoadBearing}.`);
     }
 
@@ -399,7 +401,6 @@ const verifyQuizBatch = (items) => {
       distractorIssues.push("WEAK_DISTRACTOR: missing plausible intermediate-step trap.");
     }
 
-    const correctedLevel = levelMismatch ? inferredLevel : item.level;
     const allIssues = [...factualIssues, ...distractorIssues];
     const overallStatus = allIssues.length === 0 ? "VERIFIED" : (factualIssues.length > 0 ? "REJECTED" : "FLAGGED");
 
@@ -413,7 +414,7 @@ const verifyQuizBatch = (items) => {
         level_mismatch: levelMismatch,
         claimed_load_bearing: claimedLoadBearing,
         assessed_load_bearing: assessedLoadBearing,
-        context_verdict: assessedLoadBearing ? "LOAD_BEARING" : "COSMETIC",
+        context_verdict: contextRelevant ? (assessedLoadBearing ? "LOAD_BEARING" : "COSMETIC") : "N/A",
         distractor_issues: distractorIssues,
         review_note:
           allIssues.length === 0
