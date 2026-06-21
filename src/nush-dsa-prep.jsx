@@ -302,7 +302,7 @@ in the flag output.`;
 
 // QUIZ_PROXY_URL is set to the deployed Render backend.
 // No Vite env vars — this file is designed to run directly as a Claude artifact.
-const QUIZ_PROXY_URL = "http://localhost:8787"; // replaced with live URL after deployment
+const QUIZ_PROXY_URL = "https://psle-prep.onrender.com";
 const QUIZ_PROXY_TIMEOUT_MS = 120000; // 2 min — covers Render free-tier cold start + LLM generation
 const AUTO_REGEN_MAX_ATTEMPTS = 3;
 const AUTO_REGEN_TOKEN_BUDGET = 7000;
