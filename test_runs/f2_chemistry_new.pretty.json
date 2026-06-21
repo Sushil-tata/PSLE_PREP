@@ -1,0 +1,550 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "givens": [
+        {
+          "name": "volume of hydrochloric acid solution",
+          "value": "250",
+          "unit": "mL"
+        },
+        {
+          "name": "concentration of acid",
+          "value": "20",
+          "unit": "%"
+        },
+        {
+          "name": "volume of water added",
+          "value": "150",
+          "unit": "mL"
+        },
+        {
+          "name": "mass of sodium hydroxide available",
+          "value": "50",
+          "unit": "g"
+        },
+        {
+          "name": "ratio of acid to base for neutralization",
+          "value": "3:2",
+          "unit": "by volume"
+        }
+      ],
+      "level": "L2",
+      "question": "A laboratory has 250 mL of hydrochloric acid solution at 20% concentration. After adding 150 mL of water to dilute it, the chemist needs to neutralize the acid with sodium hydroxide solution. The neutralization requires a volume ratio of acid to base of 3:2. Although 50 g of solid sodium hydroxide is available in the store, how much sodium hydroxide solution (in mL) is needed to completely neutralize the diluted acid?",
+      "options": {
+        "A": "166.7 mL",
+        "B": "200 mL",
+        "C": "266.7 mL",
+        "D": "300 mL"
+      },
+      "answer": "C",
+      "concept_tags": [
+        "dilution",
+        "neutralization",
+        "ratio",
+        "volume calculations"
+      ],
+      "real_world_context": "Laboratory acid-base neutralization",
+      "context_is_load_bearing": true,
+      "explanation": "First, find the total volume after dilution: 250 mL + 150 mL = 400 mL of diluted acid. The neutralization ratio is acid:base = 3:2. Using the ratio: if 3 parts = 400 mL, then 1 part = 400 ÷ 3 = 133.33... mL. Therefore, 2 parts of base = 2 × 133.33... = 266.7 mL (rounded to 1 d.p.). The 50 g of solid sodium hydroxide is irrelevant information. Option A (166.7 mL) is a trap for students who incorrectly use 250 mL instead of 400 mL. Option B (200 mL) assumes a 2:1 ratio instead of 3:2. Option D (300 mL) incorrectly applies the ratio as 4:3."
+    },
+    {
+      "id": 2,
+      "givens": [
+        {
+          "name": "initial volume of sulfuric acid",
+          "value": "180",
+          "unit": "mL"
+        },
+        {
+          "name": "rate of acid addition",
+          "value": "15",
+          "unit": "mL/min"
+        },
+        {
+          "name": "duration of addition",
+          "value": "8",
+          "unit": "min"
+        },
+        {
+          "name": "volume of base solution",
+          "value": "400",
+          "unit": "mL"
+        },
+        {
+          "name": "percentage of base that reacts",
+          "value": "75",
+          "unit": "%"
+        },
+        {
+          "name": "temperature of the room",
+          "value": "25",
+          "unit": "°C"
+        }
+      ],
+      "level": "L3",
+      "question": "A beaker contains 180 mL of sulfuric acid. More acid is added at a constant rate of 15 mL/min for 8 minutes. This total acid is then mixed with 400 mL of sodium hydroxide solution, but only 75% of the base actually reacts with the acid. The room temperature is 25°C. What volume (in mL) of the sodium hydroxide solution remains unreacted?",
+      "options": {
+        "A": "60 mL",
+        "B": "100 mL",
+        "C": "120 mL",
+        "D": "300 mL"
+      },
+      "answer": "B",
+      "concept_tags": [
+        "rate calculations",
+        "percentage",
+        "neutralization",
+        "multi-step problem"
+      ],
+      "real_world_context": "Controlled acid-base mixing in industrial processes",
+      "context_is_load_bearing": true,
+      "explanation": "First, calculate the volume of acid added: rate × time = 15 mL/min × 8 min = 120 mL. Total acid volume = 180 mL + 120 mL = 300 mL. The base volume is 400 mL, and 75% reacts. Volume of base that reacts = 75% of 400 mL = 0.75 × 400 = 300 mL. Volume of base unreacted = 400 mL - 300 mL = 100 mL. The temperature (25°C) is irrelevant. Option A (60 mL) is a trap for students who calculate 15% of 400 instead of the remainder. Option C (120 mL) traps those who use the added acid volume. Option D (300 mL) is the reacted volume, not unreacted."
+    },
+    {
+      "id": 3,
+      "givens": [
+        {
+          "name": "total mass of salt mixture",
+          "value": "480",
+          "unit": "g"
+        },
+        {
+          "name": "percentage of sodium chloride",
+          "value": "65",
+          "unit": "%"
+        },
+        {
+          "name": "mass ratio of remaining salts (potassium sulfate to calcium carbonate)",
+          "value": "2:5",
+          "unit": "dimensionless"
+        },
+        {
+          "name": "solubility of calcium carbonate in water",
+          "value": "0.013",
+          "unit": "g/L"
+        }
+      ],
+      "level": "L3",
+      "question": "A salt mixture has a total mass of 480 g and contains 65% sodium chloride by mass. The remaining mass consists of potassium sulfate and calcium carbonate in a ratio of 2:5. The solubility of calcium carbonate in water is 0.013 g/L. What is the mass (in g) of potassium sulfate in the mixture?",
+      "options": {
+        "A": "48 g",
+        "B": "60 g",
+        "C": "120 g",
+        "D": "168 g"
+      },
+      "answer": "A",
+      "concept_tags": [
+        "percentage composition",
+        "ratio",
+        "salt mixtures",
+        "mass calculations"
+      ],
+      "real_world_context": "Analysis of salt composition in chemical mixtures",
+      "context_is_load_bearing": true,
+      "explanation": "Total mass = 480 g. Sodium chloride = 65% of 480 g = 0.65 × 480 = 312 g. Remaining mass = 480 g - 312 g = 168 g. This remainder consists of potassium sulfate and calcium carbonate in ratio 2:5, so total parts = 2 + 5 = 7 parts. 7 parts = 168 g, so 1 part = 168 ÷ 7 = 24 g. Potassium sulfate = 2 parts = 2 × 24 = 48 g. The solubility data is irrelevant. Option B (60 g) traps students who use an incorrect ratio calculation. Option C (120 g) is 5 parts (calcium carbonate mass). Option D (168 g) is the total remainder, a common error."
+    },
+    {
+      "id": 4,
+      "givens": [
+        {
+          "name": "volume of vinegar (acetic acid solution)",
+          "value": "300",
+          "unit": "mL"
+        },
+        {
+          "name": "concentration of acetic acid",
+          "value": "5",
+          "unit": "%"
+        },
+        {
+          "name": "conversion factor mL to L",
+          "value": "1000",
+          "unit": "mL/L"
+        },
+        {
+          "name": "rate of neutralization",
+          "value": "0.025",
+          "unit": "L/min"
+        },
+        {
+          "name": "density of vinegar",
+          "value": "1.01",
+          "unit": "g/mL"
+        }
+      ],
+      "level": "L2",
+      "question": "A student has 300 mL of vinegar containing 5% acetic acid by volume. The vinegar has a density of 1.01 g/mL. If a base solution neutralizes the acid at a rate of 0.025 L/min, how many minutes will it take to neutralize all the acetic acid present in the vinegar?",
+      "options": {
+        "A": "0.6 min",
+        "B": "6 min",
+        "C": "12 min",
+        "D": "15 min"
+      },
+      "answer": "A",
+      "concept_tags": [
+        "percentage concentration",
+        "rate",
+        "volume conversion",
+        "time calculation"
+      ],
+      "real_world_context": "Neutralizing household vinegar",
+      "context_is_load_bearing": true,
+      "explanation": "Volume of acetic acid = 5% of 300 mL = 0.05 × 300 = 15 mL. Convert to liters: 15 mL ÷ 1000 mL/L = 0.015 L. The neutralization rate is 0.025 L/min. Time = volume ÷ rate = 0.015 L ÷ 0.025 L/min = 0.6 min. The density (1.01 g/mL) is irrelevant information. Option B (6 min) traps students who forget to convert mL to L. Option C (12 min) results from using 300 mL instead of 15 mL and converting. Option D (15 min) comes from dividing 15 by 1 without proper unit conversion."
+    },
+    {
+      "id": 5,
+      "givens": [
+        {
+          "name": "volume of citric acid solution",
+          "value": "500",
+          "unit": "mL"
+        },
+        {
+          "name": "initial pH indicator reading",
+          "value": "3",
+          "unit": "pH"
+        },
+        {
+          "name": "volume of ammonia solution added per step",
+          "value": "25",
+          "unit": "mL"
+        },
+        {
+          "name": "number of addition steps",
+          "value": "6",
+          "unit": "steps"
+        },
+        {
+          "name": "ratio of citric acid neutralized per 25 mL ammonia",
+          "value": "50",
+          "unit": "mL"
+        },
+        {
+          "name": "cost of ammonia solution",
+          "value": "2.50",
+          "unit": "dollars/L"
+        }
+      ],
+      "level": "L2",
+      "question": "A science experiment starts with 500 mL of citric acid solution at pH 3. Ammonia solution is added in steps of 25 mL each, and each 25 mL of ammonia neutralizes 50 mL of citric acid. After 6 addition steps, the cost of ammonia solution is $2.50 per liter. What volume (in mL) of citric acid remains unneutralized?",
+      "options": {
+        "A": "50 mL",
+        "B": "150 mL",
+        "C": "200 mL",
+        "D": "350 mL"
+      },
+      "answer": "C",
+      "concept_tags": [
+        "neutralization",
+        "ratio",
+        "multi-step process",
+        "volume calculations"
+      ],
+      "real_world_context": "Stepwise neutralization in laboratory experiments",
+      "context_is_load_bearing": true,
+      "explanation": "Total ammonia added = 25 mL/step × 6 steps = 150 mL. Each 25 mL of ammonia neutralizes 50 mL of citric acid. Number of 25 mL portions = 150 ÷ 25 = 6 portions. Total citric acid neutralized = 6 × 50 mL = 300 mL. Initial citric acid volume = 500 mL. Remaining unneutralized = 500 mL - 300 mL = 200 mL. The pH reading and cost are irrelevant. Option A (50 mL) traps students who use only one neutralization step. Option B (150 mL) is the ammonia volume added, not acid remaining. Option D (350 mL) results from subtracting only 150 mL instead of 300 mL."
+    },
+    {
+      "id": 6,
+      "givens": [
+        {
+          "name": "volume of hydrochloric acid solution",
+          "value": "250",
+          "unit": "mL"
+        },
+        {
+          "name": "concentration of hydrochloric acid",
+          "value": "20",
+          "unit": "%"
+        },
+        {
+          "name": "volume of water added",
+          "value": "150",
+          "unit": "mL"
+        },
+        {
+          "name": "mass of sodium hydroxide pellets",
+          "value": "45",
+          "unit": "g"
+        }
+      ],
+      "level": "L2",
+      "question": "A laboratory technician has 250 mL of hydrochloric acid solution with a concentration of 20%. She adds 150 mL of water to dilute the solution. The laboratory also has 45 g of sodium hydroxide pellets stored separately. What is the new concentration of the diluted hydrochloric acid solution?",
+      "options": {
+        "A": "5%",
+        "B": "7.5%",
+        "C": "12.5%",
+        "D": "15%"
+      },
+      "answer": "C",
+      "concept_tags": [
+        "dilution",
+        "concentration",
+        "solution preparation",
+        "percentage calculation"
+      ],
+      "real_world_context": "Laboratory dilution procedures",
+      "context_is_load_bearing": true,
+      "explanation": "First, find the volume of pure hydrochloric acid: 20% of 250 mL = 0.20 × 250 = 50 mL of pure acid. After adding 150 mL of water, total volume = 250 + 150 = 400 mL. The amount of pure acid remains 50 mL. New concentration = (50 ÷ 400) × 100% = 12.5%. The sodium hydroxide pellets are stored separately and do not affect the dilution calculation (irrelevant datum). Option A (5%) is a trap from incorrectly calculating 20% ÷ 4. Option B (7.5%) is a trap from using wrong ratio. Option D (15%) is a trap from subtracting 5% from original concentration."
+    },
+    {
+      "id": 7,
+      "givens": [
+        {
+          "name": "initial volume of vinegar",
+          "value": "180",
+          "unit": "mL"
+        },
+        {
+          "name": "acetic acid concentration in vinegar",
+          "value": "5",
+          "unit": "%"
+        },
+        {
+          "name": "evaporation rate",
+          "value": "12",
+          "unit": "mL per hour"
+        },
+        {
+          "name": "evaporation time",
+          "value": "3",
+          "unit": "hours"
+        },
+        {
+          "name": "room temperature",
+          "value": "25",
+          "unit": "°C"
+        }
+      ],
+      "level": "L3",
+      "question": "A student left 180 mL of vinegar (5% acetic acid solution) in an open beaker. Water evaporates at a rate of 12 mL per hour. The room temperature is 25°C. After 3 hours, what is the concentration of acetic acid in the remaining solution?",
+      "options": {
+        "A": "5.5%",
+        "B": "6.25%",
+        "C": "7.5%",
+        "D": "8%"
+      },
+      "answer": "B",
+      "concept_tags": [
+        "evaporation",
+        "concentration change",
+        "rate calculation",
+        "acid properties"
+      ],
+      "real_world_context": "Evaporation effects on solution concentration",
+      "context_is_load_bearing": true,
+      "explanation": "First, calculate volume of pure acetic acid: 5% of 180 mL = 0.05 × 180 = 9 mL of pure acetic acid. Water evaporated = 12 mL/hour × 3 hours = 36 mL. Remaining total volume = 180 - 36 = 144 mL. The pure acetic acid remains 9 mL (only water evaporates). New concentration = (9 ÷ 144) × 100% = 6.25%. Room temperature is an irrelevant datum. Option A (5.5%) is a trap from minor incorrect adjustment. Option C (7.5%) is a trap from calculating (9 ÷ 120) × 100%. Option D (8%) is a trap from using wrong remaining volume."
+    },
+    {
+      "id": 8,
+      "givens": [
+        {
+          "name": "mass of citric acid powder",
+          "value": "80",
+          "unit": "g"
+        },
+        {
+          "name": "mass of water for solution A",
+          "value": "320",
+          "unit": "g"
+        },
+        {
+          "name": "volume of solution A used",
+          "value": "150",
+          "unit": "mL"
+        },
+        {
+          "name": "mass of baking soda available",
+          "value": "60",
+          "unit": "g"
+        },
+        {
+          "name": "density of solution A",
+          "value": "1",
+          "unit": "g/mL"
+        }
+      ],
+      "level": "L3",
+      "question": "A chef prepares solution A by dissolving 80 g of citric acid powder in 320 g of water. The density of solution A is 1 g/mL. She uses 150 mL of solution A for a recipe. The kitchen also has 60 g of baking soda available. What mass of citric acid is present in the 150 mL portion used?",
+      "options": {
+        "A": "24 g",
+        "B": "30 g",
+        "C": "37.5 g",
+        "D": "40 g"
+      },
+      "answer": "B",
+      "concept_tags": [
+        "concentration by mass",
+        "solution composition",
+        "density",
+        "proportion calculation"
+      ],
+      "real_world_context": "Culinary chemistry and recipe preparation",
+      "context_is_load_bearing": true,
+      "explanation": "Total mass of solution A = 80 g citric acid + 320 g water = 400 g. Concentration of citric acid = (80 ÷ 400) × 100% = 20% by mass. Since density = 1 g/mL, 150 mL of solution A has mass = 150 g. Mass of citric acid in 150 g of solution = 20% of 150 g = 0.20 × 150 = 30 g. The baking soda is available but not used in this calculation (irrelevant datum). Option A (24 g) is a trap from calculating 80 × (150 ÷ 500). Option C (37.5 g) is a trap from using wrong proportion (150 ÷ 320) × 80. Option D (40 g) is a trap from incorrectly assuming half the citric acid."
+    },
+    {
+      "id": 9,
+      "givens": [
+        {
+          "name": "volume of sulfuric acid solution",
+          "value": "400",
+          "unit": "mL"
+        },
+        {
+          "name": "initial concentration",
+          "value": "15",
+          "unit": "%"
+        },
+        {
+          "name": "target concentration",
+          "value": "10",
+          "unit": "%"
+        },
+        {
+          "name": "pH indicator volume",
+          "value": "5",
+          "unit": "mL"
+        }
+      ],
+      "level": "L2",
+      "question": "A science teacher has 400 mL of sulfuric acid solution at 15% concentration. She also has 5 mL of pH indicator ready for testing. How much water must be added to dilute the solution to exactly 10% concentration?",
+      "options": {
+        "A": "100 mL",
+        "B": "150 mL",
+        "C": "200 mL",
+        "D": "250 mL"
+      },
+      "answer": "C",
+      "concept_tags": [
+        "dilution calculation",
+        "target concentration",
+        "inverse proportion",
+        "acid safety"
+      ],
+      "real_world_context": "Laboratory safety and solution preparation",
+      "context_is_load_bearing": true,
+      "explanation": "Volume of pure sulfuric acid = 15% of 400 mL = 0.15 × 400 = 60 mL. For 10% concentration, if final volume = V mL, then 60 ÷ V = 0.10, so V = 60 ÷ 0.10 = 600 mL. Water to be added = 600 - 400 = 200 mL. The pH indicator is for testing only and does not affect the dilution calculation (irrelevant datum). Option A (100 mL) is a trap from calculating the difference between percentages (15% - 10% = 5%, then 5% of 400 = 20, multiplied by 5). Option B (150 mL) is a trap from incorrect ratio calculation. Option D (250 mL) is a trap from using (15 - 10)/10 × 400 + 50."
+    },
+    {
+      "id": 10,
+      "givens": [
+        {
+          "name": "volume of sodium hydroxide solution in container 1",
+          "value": "300",
+          "unit": "mL"
+        },
+        {
+          "name": "concentration in container 1",
+          "value": "8",
+          "unit": "%"
+        },
+        {
+          "name": "volume of sodium hydroxide solution in container 2",
+          "value": "200",
+          "unit": "mL"
+        },
+        {
+          "name": "concentration in container 2",
+          "value": "12",
+          "unit": "%"
+        },
+        {
+          "name": "volume of empty beaker capacity",
+          "value": "750",
+          "unit": "mL"
+        }
+      ],
+      "level": "L2",
+      "question": "Container 1 holds 300 mL of sodium hydroxide solution at 8% concentration, while container 2 holds 200 mL at 12% concentration. An empty beaker with 750 mL capacity is available. If both solutions are mixed together completely, what is the concentration of the resulting mixture?",
+      "options": {
+        "A": "9.2%",
+        "B": "9.6%",
+        "C": "10%",
+        "D": "10.4%"
+      },
+      "answer": "B",
+      "concept_tags": [
+        "mixing solutions",
+        "weighted average",
+        "concentration calculation",
+        "base properties"
+      ],
+      "real_world_context": "Chemical mixing and solution preparation",
+      "context_is_load_bearing": true,
+      "explanation": "Volume of pure sodium hydroxide from container 1 = 8% of 300 mL = 0.08 × 300 = 24 mL. Volume of pure sodium hydroxide from container 2 = 12% of 200 mL = 0.12 × 200 = 24 mL. Total pure sodium hydroxide = 24 + 24 = 48 mL. Total volume of mixture = 300 + 200 = 500 mL. Concentration of mixture = (48 ÷ 500) × 100% = 9.6%. The beaker capacity is larger than needed (irrelevant datum). Option A (9.2%) is a trap from calculation error. Option C (10%) is a trap from simple averaging (8% + 12%) ÷ 2. Option D (10.4%) is a trap from weighted calculation error using wrong volumes."
+    }
+  ],
+  "meta": {
+    "source": "api",
+    "cache_hit": false,
+    "cache_backend": "memory",
+    "model": "claude-sonnet-4-5",
+    "max_tokens": 3000,
+    "temperature": 0.2,
+    "band": "P5",
+    "telemetry": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5",
+      "max_tokens": 3000,
+      "temperature": 0.2,
+      "calls_used": 2,
+      "max_calls_budget": 5,
+      "chunk_size": 5,
+      "chunk_max_tokens": 3000,
+      "latency_ms": 80674,
+      "usage": {
+        "input_tokens": 1118,
+        "output_tokens": 5749
+      },
+      "rejected_reason_counts": {},
+      "calls": [
+        {
+          "provider": "anthropic",
+          "model": "claude-sonnet-4-5",
+          "max_tokens": 3000,
+          "temperature": 0.2,
+          "latency_ms": 43638,
+          "prompt_chars": 1859,
+          "response_chars": 8805,
+          "estimated_prompt_tokens": 465,
+          "usage": {
+            "input_tokens": 559,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 3000,
+            "service_tier": "standard",
+            "inference_geo": "not_available"
+          }
+        },
+        {
+          "provider": "anthropic",
+          "model": "claude-sonnet-4-5",
+          "max_tokens": 3000,
+          "temperature": 0.2,
+          "latency_ms": 37036,
+          "prompt_chars": 1859,
+          "response_chars": 8276,
+          "estimated_prompt_tokens": 465,
+          "usage": {
+            "input_tokens": 559,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2749,
+            "service_tier": "standard",
+            "inference_geo": "not_available"
+          }
+        }
+      ]
+    }
+  }
+}

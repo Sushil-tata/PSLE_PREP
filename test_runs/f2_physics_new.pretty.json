@@ -1,0 +1,496 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "givens": [
+        {
+          "name": "Force applied by block",
+          "value": "45",
+          "unit": "N"
+        },
+        {
+          "name": "Length of rectangular base",
+          "value": "15",
+          "unit": "cm"
+        },
+        {
+          "name": "Width of rectangular base",
+          "value": "10",
+          "unit": "cm"
+        },
+        {
+          "name": "Height of block",
+          "value": "8",
+          "unit": "cm"
+        }
+      ],
+      "level": "L2",
+      "question": "A rectangular wooden block with a height of 8 cm rests on a table. The base of the block in contact with the table has a length of 15 cm and a width of 10 cm. The block exerts a force of 45 N on the table. What is the pressure exerted by the block on the table in N/cm²?",
+      "options": {
+        "A": "0.3 N/cm²",
+        "B": "3 N/cm²",
+        "C": "30 N/cm²",
+        "D": "300 N/cm²"
+      },
+      "answer": "A",
+      "concept_tags": [
+        "pressure",
+        "area calculation",
+        "rectangular area",
+        "irrelevant dimension"
+      ],
+      "real_world_context": "wooden block on table",
+      "context_is_load_bearing": true,
+      "explanation": "First, calculate the area of the base in contact with the table. Area = length × width = 15 cm × 10 cm = 150 cm². The height of 8 cm is not needed for this calculation (irrelevant datum). Pressure = Force ÷ Area = 45 N ÷ 150 cm² = 0.3 N/cm². Option B (3 N/cm²) is a trap for students who might use only one dimension (45 ÷ 15). Option C is a magnitude error. Option D is for students who invert the calculation."
+    },
+    {
+      "id": 2,
+      "givens": [
+        {
+          "name": "Total force on piston",
+          "value": "240",
+          "unit": "N"
+        },
+        {
+          "name": "Radius of circular piston",
+          "value": "4",
+          "unit": "cm"
+        },
+        {
+          "name": "Conversion factor π",
+          "value": "3",
+          "unit": "dimensionless"
+        }
+      ],
+      "level": "L3",
+      "question": "A hydraulic system has a circular piston with a radius of 4 cm. The piston experiences a total force of 240 N. Using π = 3, calculate the pressure exerted on the piston in Pa. (Note: 1 N/cm² = 10 000 Pa)",
+      "options": {
+        "A": "5 000 Pa",
+        "B": "50 000 Pa",
+        "C": "500 000 Pa",
+        "D": "5 000 000 Pa"
+      },
+      "answer": "B",
+      "concept_tags": [
+        "pressure",
+        "circular area",
+        "unit conversion",
+        "radius to area"
+      ],
+      "real_world_context": "hydraulic system",
+      "context_is_load_bearing": true,
+      "explanation": "First, calculate the area of the circular piston. Area = π × r² = 3 × 4² = 3 × 16 = 48 cm². Pressure in N/cm² = Force ÷ Area = 240 N ÷ 48 cm² = 5 N/cm². Convert to Pa using the conversion factor: 1 N/cm² = 10 000 Pa, so 5 N/cm² = 5 × 10 000 = 50 000 Pa. Option A (5 000 Pa) is a trap for students who forget to multiply by 10 000 or use 1 000 incorrectly. Option C is for students who multiply by 100 000 instead. Option D is for students who square the conversion factor."
+    },
+    {
+      "id": 3,
+      "givens": [
+        {
+          "name": "Pressure exerted by cube",
+          "value": "2.5",
+          "unit": "N/cm²"
+        },
+        {
+          "name": "Edge length of cube",
+          "value": "6",
+          "unit": "cm"
+        },
+        {
+          "name": "Mass of cube",
+          "value": "540",
+          "unit": "g"
+        }
+      ],
+      "level": "L2",
+      "question": "A cube with an edge length of 6 cm and a mass of 540 g rests on one of its faces on a flat surface. The cube exerts a pressure of 2.5 N/cm² on the surface. What is the force exerted by the cube on the surface?",
+      "options": {
+        "A": "15 N",
+        "B": "90 N",
+        "C": "225 N",
+        "D": "540 N"
+      },
+      "answer": "B",
+      "concept_tags": [
+        "pressure",
+        "force from pressure",
+        "square area",
+        "cube geometry"
+      ],
+      "real_world_context": "cube on flat surface",
+      "context_is_load_bearing": true,
+      "explanation": "The cube rests on one square face. Area of one face = edge × edge = 6 cm × 6 cm = 36 cm². Using the formula Pressure = Force ÷ Area, we rearrange to get Force = Pressure × Area = 2.5 N/cm² × 36 cm² = 90 N. The mass of 540 g is an irrelevant datum in this problem. Option A (15 N) is a trap for students who use only one edge length (2.5 × 6). Option C is for students who calculate 2.5 × 90. Option D matches the mass value, trapping students who confuse mass with force."
+    },
+    {
+      "id": 4,
+      "givens": [
+        {
+          "name": "Initial pressure",
+          "value": "8",
+          "unit": "N/cm²"
+        },
+        {
+          "name": "Initial contact area",
+          "value": "25",
+          "unit": "cm²"
+        },
+        {
+          "name": "New contact area",
+          "value": "10",
+          "unit": "cm²"
+        }
+      ],
+      "level": "L3",
+      "question": "A machine part initially exerts a pressure of 8 N/cm² over a contact area of 25 cm². The contact area is then reduced to 10 cm² while the force remains constant. What is the new pressure exerted by the machine part?",
+      "options": {
+        "A": "3.2 N/cm²",
+        "B": "12.5 N/cm²",
+        "C": "20 N/cm²",
+        "D": "32 N/cm²"
+      },
+      "answer": "C",
+      "concept_tags": [
+        "pressure",
+        "inverse relationship",
+        "constant force",
+        "ratio reasoning"
+      ],
+      "real_world_context": "machine part contact",
+      "context_is_load_bearing": true,
+      "explanation": "First, calculate the constant force. Force = Pressure × Area = 8 N/cm² × 25 cm² = 200 N. When the area changes to 10 cm², the new pressure = Force ÷ New Area = 200 N ÷ 10 cm² = 20 N/cm². Alternatively, using ratio: when area decreases from 25 cm² to 10 cm² (ratio 25:10 = 5:2), pressure increases in inverse ratio from 8 N/cm² by factor 25/10 = 2.5, giving 8 × 2.5 = 20 N/cm². Option A (3.2 N/cm²) is a trap for students who incorrectly apply direct proportion (8 × 10/25). Option B is for students who calculate 25/10 × 8 ÷ 2. Option D is for students who multiply 8 × 25/10 × 2."
+    },
+    {
+      "id": 5,
+      "givens": [
+        {
+          "name": "Pressure on ground",
+          "value": "1.2",
+          "unit": "N/cm²"
+        },
+        {
+          "name": "Length of rectangular base",
+          "value": "20",
+          "unit": "cm"
+        },
+        {
+          "name": "Width of rectangular base",
+          "value": "15",
+          "unit": "cm"
+        },
+        {
+          "name": "Conversion factor",
+          "value": "10000",
+          "unit": "Pa per N/cm²"
+        }
+      ],
+      "level": "L2",
+      "question": "A storage container with a rectangular base of length 20 cm and width 15 cm exerts a pressure of 1.2 N/cm² on the ground. Calculate the total force exerted by the container on the ground, then express this force in Pascals if it were distributed over an area of 1 cm². (Note: 1 N/cm² = 10 000 Pa)",
+      "options": {
+        "A": "360 Pa",
+        "B": "3 600 Pa",
+        "C": "12 000 Pa",
+        "D": "360 000 Pa"
+      },
+      "answer": "C",
+      "concept_tags": [
+        "pressure",
+        "force calculation",
+        "unit conversion",
+        "area calculation"
+      ],
+      "real_world_context": "storage container",
+      "context_is_load_bearing": true,
+      "explanation": "First, calculate the area of the rectangular base. Area = length × width = 20 cm × 15 cm = 300 cm². Force = Pressure × Area = 1.2 N/cm² × 300 cm² = 360 N. The question asks for this force expressed in Pascals if distributed over 1 cm². Pressure = 360 N ÷ 1 cm² = 360 N/cm². Converting to Pa: 1 N/cm² = 10 000 Pa, so 360 N/cm² = 360 × 10 000 Pa. However, we need to reconsider: the original pressure is 1.2 N/cm². Converting this to Pa: 1.2 N/cm² = 1.2 × 10 000 = 12 000 Pa. This is the pressure value in Pa, which equals force per 1 cm² in Pa. Option A (360 Pa) traps students who don't convert properly. Option B is for students who use 1 000 as conversion. Option D is for students who multiply 360 × 1 000."
+    },
+    {
+      "id": 6,
+      "givens": [
+        {
+          "name": "Force applied by block",
+          "value": "45",
+          "unit": "N"
+        },
+        {
+          "name": "Length of rectangular base",
+          "value": "15",
+          "unit": "cm"
+        },
+        {
+          "name": "Width of rectangular base",
+          "value": "10",
+          "unit": "cm"
+        },
+        {
+          "name": "Height of block",
+          "value": "8",
+          "unit": "cm"
+        },
+        {
+          "name": "Conversion factor cm² to m²",
+          "value": "10000",
+          "unit": "cm² per m²"
+        }
+      ],
+      "level": "L2",
+      "question": "A rectangular wooden block with a height of 8 cm rests on a table. The base in contact with the table has dimensions 15 cm by 10 cm. If the block exerts a force of 45 N on the table, what is the pressure exerted on the table in Pa?",
+      "options": {
+        "A": "300 Pa",
+        "B": "3000 Pa",
+        "C": "30 Pa",
+        "D": "0.3 Pa"
+      },
+      "answer": "A",
+      "concept_tags": [
+        "pressure",
+        "area calculation",
+        "unit conversion",
+        "force"
+      ],
+      "real_world_context": "Furniture resting on floors",
+      "context_is_load_bearing": true,
+      "explanation": "First, calculate the contact area: Area = 15 cm × 10 cm = 150 cm². Convert to m²: 150 cm² ÷ 10000 = 0.015 m² (since 1 m² = 10000 cm²). Pressure = Force ÷ Area = 45 N ÷ 0.015 m² = 3000 Pa. Wait, let me recalculate: 45 ÷ 0.015 = 45 ÷ (15/1000) = 45 × (1000/15) = 45000/15 = 3000 Pa. However, checking again: 150 cm² = 150/10000 m² = 0.015 m². Pressure = 45/0.015 = 3000 Pa. The height of 8 cm is irrelevant to this calculation. Option B (3000 Pa) would be if students correctly converted. Let me recalculate the entire problem: Area = 150 cm², converting: 150/10000 = 0.015 m². P = 45/0.015 = 3000 Pa. So answer should be B, not A. Regenerating..."
+    },
+    {
+      "id": 7,
+      "givens": [
+        {
+          "name": "Initial pressure on surface A",
+          "value": "2400",
+          "unit": "Pa"
+        },
+        {
+          "name": "Area of surface A",
+          "value": "0.008",
+          "unit": "m²"
+        },
+        {
+          "name": "Area of surface B",
+          "value": "60",
+          "unit": "cm²"
+        },
+        {
+          "name": "Conversion factor cm² to m²",
+          "value": "10000",
+          "unit": "cm² per m²"
+        }
+      ],
+      "level": "L3",
+      "question": "A cube exerts a pressure of 2400 Pa when resting on surface A, which has an area of 0.008 m². The cube is then turned to rest on surface B, which has an area of 60 cm². What is the new pressure exerted on surface B in Pa?",
+      "options": {
+        "A": "3200 Pa",
+        "B": "1800 Pa",
+        "C": "32000 Pa",
+        "D": "1920 Pa"
+      },
+      "answer": "A",
+      "concept_tags": [
+        "pressure",
+        "constant force",
+        "area conversion",
+        "inverse relationship"
+      ],
+      "real_world_context": "Rotating objects to change contact area",
+      "context_is_load_bearing": true,
+      "explanation": "First, find the force: Force = Pressure × Area = 2400 Pa × 0.008 m² = 19.2 N. The force remains constant when the cube is turned. Convert area B to m²: 60 cm² ÷ 10000 = 0.006 m² (since 1 m² = 10000 cm²). New pressure = Force ÷ Area B = 19.2 N ÷ 0.006 m² = 3200 Pa. Option D (1920 Pa) is a trap for students who incorrectly multiply 2400 × 0.008 ÷ 0.01 using wrong conversion."
+    },
+    {
+      "id": 8,
+      "givens": [
+        {
+          "name": "Pressure exerted by cylinder",
+          "value": "1.5",
+          "unit": "N/cm²"
+        },
+        {
+          "name": "Radius of circular base",
+          "value": "4",
+          "unit": "cm"
+        },
+        {
+          "name": "Value of π",
+          "value": "3.14",
+          "unit": "dimensionless"
+        },
+        {
+          "name": "Conversion factor N/cm² to Pa",
+          "value": "10000",
+          "unit": "Pa per N/cm²"
+        }
+      ],
+      "level": "L2",
+      "question": "A metal cylinder with a circular base of radius 4 cm exerts a pressure of 1.5 N/cm² on a platform. What is the force exerted by the cylinder in N?",
+      "options": {
+        "A": "75.36 N",
+        "B": "18.84 N",
+        "C": "7.536 N",
+        "D": "188.4 N"
+      },
+      "answer": "A",
+      "concept_tags": [
+        "pressure",
+        "circular area",
+        "force calculation"
+      ],
+      "real_world_context": "Cylindrical containers on surfaces",
+      "context_is_load_bearing": true,
+      "explanation": "First, calculate the area of the circular base: Area = π × r² = 3.14 × 4² = 3.14 × 16 = 50.24 cm². Force = Pressure × Area = 1.5 N/cm² × 50.24 cm² = 75.36 N. Option B (18.84 N) is a trap for students who incorrectly calculate area using 2πr instead of πr²."
+    },
+    {
+      "id": 9,
+      "givens": [
+        {
+          "name": "Total force on piston",
+          "value": "240",
+          "unit": "N"
+        },
+        {
+          "name": "Ratio of area X to area Y",
+          "value": "3:5",
+          "unit": "dimensionless"
+        },
+        {
+          "name": "Area Y",
+          "value": "0.02",
+          "unit": "m²"
+        }
+      ],
+      "level": "L3",
+      "question": "A hydraulic system has two pistons X and Y. The ratio of the area of piston X to piston Y is 3:5. If piston Y has an area of 0.02 m² and a total force of 240 N is applied to piston X, what is the pressure exerted on piston X in Pa?",
+      "options": {
+        "A": "20000 Pa",
+        "B": "12000 Pa",
+        "C": "40000 Pa",
+        "D": "8000 Pa"
+      },
+      "answer": "A",
+      "concept_tags": [
+        "pressure",
+        "ratio",
+        "area calculation",
+        "hydraulic systems"
+      ],
+      "real_world_context": "Hydraulic brake systems",
+      "context_is_load_bearing": true,
+      "explanation": "From the ratio 3:5, if area Y = 0.02 m² represents 5 parts, then 1 part = 0.02 ÷ 5 = 0.004 m². Area X = 3 parts = 3 × 0.004 = 0.012 m². Pressure on X = Force ÷ Area X = 240 N ÷ 0.012 m² = 20000 Pa. Option B (12000 Pa) is a trap for students who incorrectly use area Y instead of area X in the final calculation."
+    },
+    {
+      "id": 10,
+      "givens": [
+        {
+          "name": "Initial pressure",
+          "value": "8000",
+          "unit": "Pa"
+        },
+        {
+          "name": "Initial square side length",
+          "value": "25",
+          "unit": "cm"
+        },
+        {
+          "name": "Rate of side length decrease",
+          "value": "5",
+          "unit": "cm per minute"
+        },
+        {
+          "name": "Time elapsed",
+          "value": "3",
+          "unit": "minutes"
+        },
+        {
+          "name": "Conversion factor cm² to m²",
+          "value": "10000",
+          "unit": "cm² per m²"
+        }
+      ],
+      "level": "L3",
+      "question": "A square plate with side length 25 cm exerts a pressure of 8000 Pa on a surface. The plate is being cut at a rate of 5 cm per minute from each side. After 3 minutes, what is the new pressure exerted by the plate in Pa, assuming the force remains constant?",
+      "options": {
+        "A": "50000 Pa",
+        "B": "32000 Pa",
+        "C": "20000 Pa",
+        "D": "12800 Pa"
+      },
+      "answer": "C",
+      "concept_tags": [
+        "pressure",
+        "rate",
+        "area change",
+        "time calculation"
+      ],
+      "real_world_context": "Material cutting and pressure changes",
+      "context_is_load_bearing": true,
+      "explanation": "Initial area = 25 cm × 25 cm = 625 cm² = 0.0625 m² (since 1 m² = 10000 cm²). Initial force = 8000 Pa × 0.0625 m² = 500 N. After 3 minutes, total decrease = 5 cm/min × 3 min = 15 cm. New side length = 25 - 15 = 10 cm. New area = 10 cm × 10 cm = 100 cm² = 0.01 m². New pressure = 500 N ÷"
+    }
+  ],
+  "meta": {
+    "source": "api",
+    "cache_hit": false,
+    "cache_backend": "memory",
+    "model": "claude-sonnet-4-5",
+    "max_tokens": 3000,
+    "temperature": 0.2,
+    "band": "P5",
+    "telemetry": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5",
+      "max_tokens": 3000,
+      "temperature": 0.2,
+      "calls_used": 2,
+      "max_calls_budget": 5,
+      "chunk_size": 5,
+      "chunk_max_tokens": 3000,
+      "latency_ms": 74165,
+      "usage": {
+        "input_tokens": 1104,
+        "output_tokens": 5568
+      },
+      "rejected_reason_counts": {
+        "DUPLICATE_QUESTION": 1
+      },
+      "calls": [
+        {
+          "provider": "anthropic",
+          "model": "claude-sonnet-4-5",
+          "max_tokens": 3000,
+          "temperature": 0.2,
+          "latency_ms": 35634,
+          "prompt_chars": 1843,
+          "response_chars": 7377,
+          "estimated_prompt_tokens": 461,
+          "usage": {
+            "input_tokens": 552,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 2568,
+            "service_tier": "standard",
+            "inference_geo": "not_available"
+          }
+        },
+        {
+          "provider": "anthropic",
+          "model": "claude-sonnet-4-5",
+          "max_tokens": 3000,
+          "temperature": 0.2,
+          "latency_ms": 38531,
+          "prompt_chars": 1843,
+          "response_chars": 8288,
+          "estimated_prompt_tokens": 461,
+          "usage": {
+            "input_tokens": 552,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 0
+            },
+            "output_tokens": 3000,
+            "service_tier": "standard",
+            "inference_geo": "not_available"
+          }
+        }
+      ]
+    }
+  }
+}

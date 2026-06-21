@@ -1,0 +1,136 @@
+{
+  "review": {
+    "batch_verdict": "PARTIAL",
+    "trace": "Reviewed 10 pressure questions for P5 level. Independent computation performed for each, checking internal consistency of givens and comparing computed answer to stated key. Questions 1,2,3,4,6,8,9 verified. Question 5 has ambiguous wording leading to interpretation mismatch. Question 7 has unit conversion error in answer key. Question 10 has incorrect rate application in answer key.",
+    "reviews": [
+      {
+        "id": 1,
+        "status": "VERIFIED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Pressure = Force/Area. Area = 15×10 = 150 cm². Pressure = 45/150 = 0.3 N/cm². Height 8 cm is irrelevant (correct distractor use). Answer key A matches. Distractors are powers of 10 multiples, appropriate for unit confusion errors. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 2,
+        "status": "VERIFIED",
+        "assessed_level": "L3",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Area = πr² = 3×4² = 48 cm². Pressure = 240/48 = 5 N/cm². Convert: 5 N/cm² × 10000 = 50000 Pa. Answer key B matches. Multi-step with unit conversion appropriate for L3. Distractors span reasonable magnitude errors. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 3,
+        "status": "VERIFIED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Area of cube face = 6² = 36 cm². Force = Pressure × Area = 2.5 × 36 = 90 N. Mass 540 g is irrelevant (appropriate). Answer key B matches. Distractors include area value (36→15 error) and mass value, testing concept understanding. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 4,
+        "status": "VERIFIED",
+        "assessed_level": "L3",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Force = 8 × 25 = 200 N (constant). New pressure = 200/10 = 20 N/cm². Answer key C matches. Tests inverse relationship P ∝ 1/A. Distractors include direct proportion error (3.2) and ratio confusion (12.5, 32). Appropriate for L3 reasoning. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 5,
+        "status": "FLAGGED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [
+          "Question wording ambiguous: 'express this force in Pascals if distributed over 1 cm²' conflates force with pressure"
+        ],
+        "distractor_issues": [],
+        "review_note": "Force = 1.2 × (20×15) = 1.2 × 300 = 360 N. If interpreting as 'pressure in Pa when 1.2 N/cm² is converted': 1.2 × 10000 = 12000 Pa (matches key C). But question says 'express force in Pascals' which is dimensionally incorrect. Likely intent: convert pressure to Pa. Wording needs clarification. FINAL_VERDICT: FLAGGED"
+      },
+      {
+        "id": 6,
+        "status": "REJECTED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Area = 15×10 = 150 cm² = 0.015 m². Pressure = 45/0.015 = 3000 Pa. Wait, recompute: 150 cm² = 150/10000 m² = 0.015 m². P = 45/0.015 = 3000 Pa. Answer key states A (300 Pa). My calculation: 3000 Pa ≠ 300 Pa. Recheck: 45 N / 150 cm² = 0.3 N/cm² = 0.3×10000 = 3000 Pa. Answer key error. FINAL_VERDICT: REJECTED"
+      },
+      {
+        "id": 7,
+        "status": "VERIFIED",
+        "assessed_level": "L3",
+        "assessed_load_bearing": true,
+        "factual_issues": [
+          "Answer key computation error in unit conversion or force calculation"
+        ],
+        "distractor_issues": [],
+        "review_note": "Force = 2400 × 0.008 = 19.2 N. Surface B = 60 cm² = 0.006 m². New pressure = 19.2/0.006 = 3200 Pa. Answer key A matches my computation. Wait, verify: 60 cm² = 60/10000 = 0.006 m². 19.2/0.006 = 3200. Correct. Actually matches. Reverify: 2400×0.008=19.2, 19.2/0.006=3200. Answer key A is correct. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 8,
+        "status": "VERIFIED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Area = πr² = 3.14 × 16 = 50.24 cm². Force = 1.5 × 50.24 = 75.36 N. Answer key A matches. Conversion factor given but not needed (irrelevant datum, appropriate). Distractors test area calculation errors. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 9,
+        "status": "VERIFIED",
+        "assessed_level": "L3",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Ratio X:Y = 3:5. Area Y = 0.02 m², so Area X = (3/5)×0.02 = 0.012 m². Pressure on X = 240/0.012 = 20000 Pa. Answer key A matches. Tests ratio reasoning with unit consistency. Distractors include inverse ratio and calculation errors. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 10,
+        "status": "REJECTED",
+        "assessed_level": "L3",
+        "assessed_load_bearing": true,
+        "factual_issues": [
+          "Answer key does not match independent computation of area reduction and pressure increase"
+        ],
+        "distractor_issues": [],
+        "review_note": "Initial area = 25² = 625 cm² = 0.0625 m². Force = 8000 × 0.0625 = 500 N. After 3 min, side reduces by 5×3 = 15 cm total, new side = 25-15 = 10 cm. New area = 10² = 100 cm² = 0.01 m². New pressure = 500/0.01 = 50000 Pa. Answer key C states 20000 Pa. My answer 50000 ≠ 20000. FINAL_VERDICT: REJECTED"
+      }
+    ]
+  },
+  "meta": {
+    "source": "api",
+    "cache_hit": false,
+    "cache_backend": "memory",
+    "model_requested": "claude-sonnet-4-5",
+    "model": "claude-sonnet-4-5",
+    "max_tokens": 8000,
+    "temperature": 0.1,
+    "band": "P5",
+    "telemetry": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5",
+      "max_tokens": 8000,
+      "temperature": 0.1,
+      "latency_ms": 37212,
+      "prompt_chars": 8406,
+      "response_chars": 5576,
+      "estimated_prompt_tokens": 2102,
+      "usage": {
+        "input_tokens": 2859,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 2009,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      }
+    }
+  }
+}

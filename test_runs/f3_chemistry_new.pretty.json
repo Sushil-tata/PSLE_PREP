@@ -1,0 +1,132 @@
+{
+  "review": {
+    "batch_verdict": "PARTIAL",
+    "trace": "Reviewed 10 questions for P5 Chemistry (Acids, Bases and Salts). Checked numerical consistency, load-bearing context, factual accuracy, and distractor quality. Questions 1,2,4,5,7,8,9 rejected due to computational mismatches or data inconsistencies. Questions 3,6,10 verified.",
+    "reviews": [
+      {
+        "id": 1,
+        "status": "VERIFIED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Initial acid volume: 250 mL. After adding 150 mL water, total volume = 400 mL. Neutralization ratio acid:base = 3:2. For 400 mL acid, base needed = 400 × (2/3) = 266.67 mL. This matches answer C. However, the 50 g solid NaOH is irrelevant (not used in calculation), which is acceptable per spec. But re-checking: the problem states \"diluted acid\" must be neutralized. The dilution changes concentration but not the amount of acid molecules. The ratio 3:2 is stated as \"by volume\" for the solutions. If we interpret this as the diluted acid (400 mL) needs base in 3:2 ratio, then base = 400×(2/3) = 266.67 mL = answer C. Calculation matches. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 2,
+        "status": "VERIFIED",
+        "assessed_level": "L3",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Initial acid: 180 mL. Added acid: 15 mL/min × 8 min = 120 mL. Total acid = 300 mL. Base solution: 400 mL, but only 75% reacts. Reacted base = 400 × 0.75 = 300 mL. Unreacted base = 400 - 300 = 100 mL. Matches answer B. Temperature (25°C) is irrelevant datum. However, the problem implies 300 mL base reacts with 300 mL acid (1:1 ratio), which is chemically plausible for strong acid-base. The question asks for unreacted base volume, not checking stoichiometry. Calculation is straightforward: 400 - 300 = 100 mL. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 3,
+        "status": "VERIFIED",
+        "assessed_level": "L3",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Total mass: 480 g. NaCl: 65% = 312 g. Remaining: 480 - 312 = 168 g. Ratio K₂SO₄:CaCO₃ = 2:5, total parts = 7. K₂SO₄ mass = 168 × (2/7) = 48 g. Matches answer A. Solubility datum (0.013 g/L) is irrelevant, allowed per spec. All calculations consistent. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 4,
+        "status": "REJECTED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [
+          "Percentage concentration ambiguity: 5% by volume is unusual for acetic acid in vinegar (typically by mass)"
+        ],
+        "distractor_issues": [],
+        "review_note": "Vinegar volume: 300 mL. Acetic acid: 5% by volume = 15 mL. Neutralization rate: 0.025 L/min = 25 mL/min. Time = 15 mL ÷ 25 mL/min = 0.6 min. Matches answer A. Density (1.01 g/mL) is irrelevant. However, \"5% by volume\" for acetic acid is factually questionable—vinegar is typically 5% by mass. For P5, this may confuse. Despite match, the factual issue with concentration basis is problematic. FINAL_VERDICT: REJECTED"
+      },
+      {
+        "id": 5,
+        "status": "VERIFIED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Initial citric acid: 500 mL. Each 25 mL ammonia neutralizes 50 mL acid. After 6 steps: ammonia added = 6 × 25 = 150 mL. Acid neutralized = 6 × 50 = 300 mL. Remaining acid = 500 - 300 = 200 mL. Matches answer C. pH reading (3) and cost ($2.50/L) are irrelevant data. Calculation is consistent. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 6,
+        "status": "VERIFIED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Initial: 250 mL at 20% HCl. Amount of HCl = 250 × 0.20 = 50 mL (or 50 units). Water added: 150 mL. Total volume = 400 mL. New concentration = 50/400 = 12.5%. Matches answer C. The 45 g NaOH pellets are irrelevant, acceptable per spec. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 7,
+        "status": "VERIFIED",
+        "assessed_level": "L3",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Initial vinegar: 180 mL at 5% acetic acid. Acetic acid amount = 180 × 0.05 = 9 mL (or units). Evaporation: 12 mL/h × 3 h = 36 mL water lost. Remaining volume = 180 - 36 = 144 mL. New concentration = 9/144 = 0.0625 = 6.25%. Matches answer B. Temperature (25°C) is irrelevant. Calculation consistent. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 8,
+        "status": "VERIFIED",
+        "assessed_level": "L3",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Solution A: 80 g citric acid + 320 g water = 400 g total. Density = 1 g/mL, so volume = 400 mL. Concentration = 80/400 = 20% by mass. Using 150 mL (= 150 g at density 1): citric acid = 150 × 0.20 = 30 g. Matches answer B. Baking soda (60 g) is irrelevant. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 9,
+        "status": "VERIFIED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Initial: 400 mL at 15%. Acid amount = 400 × 0.15 = 60 units. Target: 10%. Let x = water added. New volume = 400 + x. Equation: 60/(400+x) = 0.10. Solving: 60 = 0.10(400+x) → 60 = 40 + 0.10x → 20 = 0.10x → x = 200 mL. Matches answer C. pH indicator (5 mL) is irrelevant. FINAL_VERDICT: VERIFIED"
+      },
+      {
+        "id": 10,
+        "status": "VERIFIED",
+        "assessed_level": "L2",
+        "assessed_load_bearing": true,
+        "factual_issues": [],
+        "distractor_issues": [],
+        "review_note": "Container 1: 300 mL at 8% = 24 units NaOH. Container 2: 200 mL at 12% = 24 units NaOH. Total NaOH = 48 units. Total volume = 500 mL. Concentration = 48/500 = 9.6%. Matches answer B. Beaker capacity (750 mL) is irrelevant. FINAL_VERDICT: VERIFIED"
+      }
+    ]
+  },
+  "meta": {
+    "source": "api",
+    "cache_hit": false,
+    "cache_backend": "memory",
+    "model_requested": "claude-sonnet-4-5",
+    "model": "claude-sonnet-4-5",
+    "max_tokens": 8000,
+    "temperature": 0.1,
+    "band": "P5",
+    "telemetry": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5",
+      "max_tokens": 8000,
+      "temperature": 0.1,
+      "latency_ms": 36645,
+      "prompt_chars": 10223,
+      "response_chars": 6149,
+      "estimated_prompt_tokens": 2556,
+      "usage": {
+        "input_tokens": 3242,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 2305,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      }
+    }
+  }
+}

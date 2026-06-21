@@ -18,7 +18,7 @@ const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || "";
 const F2_MODEL = process.env.F2_MODEL || "claude-sonnet-4-5";
 const F3_MODEL = process.env.F3_MODEL || "claude-sonnet-4-5";
 const F2_MAX_TOKENS = Number(process.env.F2_MAX_TOKENS || 2200);
-const F3_MAX_TOKENS = Math.max(3000, Number(process.env.F3_MAX_TOKENS || 3000));
+const F3_MAX_TOKENS = Math.max(8000, Number(process.env.F3_MAX_TOKENS || 8000));
 const F2_CHUNK_SIZE = Math.max(1, Math.min(10, Number(process.env.F2_CHUNK_SIZE || 5)));
 const F2_MAX_CALLS = Math.max(1, Number(process.env.F2_MAX_CALLS || 4));
 const F2_RECOVERY_CALLS = Math.max(0, Number(process.env.F2_RECOVERY_CALLS || 1));
@@ -140,8 +140,9 @@ const EFFECTIVE_F3_MODEL = resolveVerifierModel(F2_MODEL, F3_MODEL);
 const F3_SYSTEM_PROMPT = [
   "You are a strict STEM reviewer for Singapore primary competition prep. Output JSON only.",
   "Independently solve the question from scratch using only the numbers given in the question stem. Compare YOUR computed answer to the stated answer key. If they differ, REJECT the question - do not adjust your reasoning, invent different input numbers, or change assumptions to make the stated answer key fit.",
-  "Additionally, verify all given numbers in the question are internally consistent with each other (e.g. a sub-quantity cannot exceed its parent total) before checking the final answer. If inconsistent, REJECT and flag as DATA_INCONSISTENCY.",
+  "Additionally, verify all given numbers in the question are internally consistent with each other (e.g. a sub-quantity cannot exceed its parent total) and with the 'givens' list if present. If inconsistent, REJECT and flag as DATA_INCONSISTENCY.",
   "If your own independent computation appears more than once in your reasoning and contradicts your final stated answer, do not resolve the contradiction by inventing a new formula or changing an input value to match the answer key. Reject immediately at the point of first contradiction.",
+  "BREVITY: Keep each review_note under 120 words — show only the key calculation chain, whether it matches the answer key, and any inconsistency found. Do not repeat problem context or explain distractor options. End every review_note with FINAL_VERDICT: VERIFIED or FINAL_VERDICT: REJECTED on the same or a new line.",
 ].join(" ");
 
 function parseJsonObjectFromText(rawText) {
@@ -414,7 +415,9 @@ function buildF3Prompt({ subjectLabel, topic, band, items }) {
   ].join("\n");
 }
 
-const FINAL_VERDICT_LINE_REGEX = /^FINAL_VERDICT:\s*(VERIFIED|FLAGGED|REJECTED)\s*$/gm;
+// Match FINAL_VERDICT at the start of a line OR inline after other text (F3 sometimes omits the leading newline).
+// Requires the verdict to be followed by end-of-line or end-of-string so it cannot match in the middle of a sentence.
+const FINAL_VERDICT_LINE_REGEX = /FINAL_VERDICT:\s*(VERIFIED|FLAGGED|REJECTED)\s*(?:\n|$)/gm;
 
 function extractFinalVerdict(reviewNote) {
   const note = String(reviewNote || "");
