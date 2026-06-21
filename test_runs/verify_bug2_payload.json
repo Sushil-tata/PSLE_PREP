@@ -1,0 +1,27 @@
+{
+  "subjectLabel": "Mathematics",
+  "topic": "Fractions, Decimals and Percentages",
+  "band": "P5",
+  "items": [
+    {
+      "id": 1,
+      "level": "L2",
+      "question": "A library has 480 books in its collection. 65% of them are reference books and the rest are storybooks. On Saturday, the library sold 180 storybooks. The ratio of storybooks sold in the morning to those sold in the afternoon was 5:4. How many storybooks were sold in the afternoon?",
+      "options": {
+        "A": "72",
+        "B": "80",
+        "C": "90",
+        "D": "108"
+      },
+      "answer": "B",
+      "concept_tags": [
+        "percentage_calculation",
+        "ratio_application",
+        "multi-step_problem_solving"
+      ],
+      "real_world_context": "Library book sales tracking",
+      "context_is_load_bearing": true,
+      "explanation": "First, find the number of storybooks: 100% - 65% = 35% are storybooks. 35% of 480 = 0.35 × 480 = 168 storybooks total. However, 180 storybooks were sold (this is the given data to use). The ratio morning:afternoon = 5:4, so total parts = 5 + 4 = 9 parts. Afternoon sales = 4/9 × 180 = 80 storybooks."
+    }
+  ]
+}

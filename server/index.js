@@ -137,6 +137,12 @@ function resolveVerifierModel(generatorModel, verifierModel) {
 
 const EFFECTIVE_F3_MODEL = resolveVerifierModel(F2_MODEL, F3_MODEL);
 
+const F3_SYSTEM_PROMPT = [
+  "You are a strict STEM reviewer for Singapore primary competition prep. Output JSON only.",
+  "Independently solve the question from scratch using only the numbers given in the question stem. Compare YOUR computed answer to the stated answer key. If they differ, REJECT the question - do not adjust your reasoning, invent different input numbers, or change assumptions to make the stated answer key fit.",
+  "Additionally, verify all given numbers in the question are internally consistent with each other (e.g. a sub-quantity cannot exceed its parent total) before checking the final answer. If inconsistent, REJECT and flag as DATA_INCONSISTENCY.",
+].join(" ");
+
 function parseJsonObjectFromText(rawText) {
   if (!rawText) {
     throw new Error("Empty model response.");
@@ -415,6 +421,18 @@ function buildF2RepairPrompt({ subjectLabel, topic, band, targets, qualityHints 
   ].filter(Boolean).join("\n");
 }
 
+function reviewHasIssues(reviewItem) {
+  return (
+    (Array.isArray(reviewItem?.factual_issues) && reviewItem.factual_issues.length > 0) ||
+    (Array.isArray(reviewItem?.distractor_issues) && reviewItem.distractor_issues.length > 0)
+  );
+}
+
+function reviewPassedIndependentCheck(reviewItem) {
+  const status = String(reviewItem?.status || "").toUpperCase();
+  return status === "VERIFIED" && !reviewHasIssues(reviewItem);
+}
+
 app.get("/health", (_req, res) => {
   res.json({
     ok: true,
@@ -592,7 +610,7 @@ app.post("/api/v1/f3/verify", async (req, res) => {
   try {
     const { data, telemetry } = await callClaudeJson({
       model: EFFECTIVE_F3_MODEL,
-      system: "You are a strict STEM reviewer for Singapore primary competition prep. Output JSON only.",
+      system: F3_SYSTEM_PROMPT,
       prompt,
       maxTokens: F3_MAX_TOKENS,
       temperature: F3_TEMPERATURE,
@@ -681,7 +699,7 @@ app.post("/api/v1/f3/repair", async (req, res) => {
       const existingPrompt = buildF3Prompt({ subjectLabel, topic, band, items });
       const { data, telemetry } = await callClaudeJson({
         model: EFFECTIVE_F3_MODEL,
-        system: "You are a strict STEM reviewer for Singapore primary competition prep. Output JSON only.",
+          system: F3_SYSTEM_PROMPT,
         prompt: existingPrompt,
         maxTokens: F3_MAX_TOKENS,
         temperature: F3_TEMPERATURE,
@@ -792,11 +810,22 @@ app.post("/api/v1/f3/repair", async (req, res) => {
     const verifyPrompt = buildF3Prompt({ subjectLabel, topic, band, items: finalItems });
     const { data: verified, telemetry: verifyTelemetry } = await callClaudeJson({
       model: EFFECTIVE_F3_MODEL,
-      system: "You are a strict STEM reviewer for Singapore primary competition prep. Output JSON only.",
+      system: F3_SYSTEM_PROMPT,
       prompt: verifyPrompt,
       maxTokens: F3_MAX_TOKENS,
       temperature: F3_TEMPERATURE,
     });
+
+    const verifiedReviews = Array.isArray(verified.reviews) ? verified.reviews : [];
+    const verifiedReviewById = new Map(
+      verifiedReviews
+        .map((r) => [Number(r?.id), r])
+        .filter(([id]) => Number.isFinite(id) && id > 0),
+    );
+    const passedRepairedIds = Array.from(replacedIds).filter((id) =>
+      reviewPassedIndependentCheck(verifiedReviewById.get(id)),
+    );
+    const failedRepairedIds = Array.from(replacedIds).filter((id) => !passedRepairedIds.includes(id));
 
     const repairInputTokens = repairTelemetry.reduce((sum, t) => sum + Number(t?.usage?.input_tokens || 0), 0);
     const repairOutputTokens = repairTelemetry.reduce((sum, t) => sum + Number(t?.usage?.output_tokens || 0), 0);
@@ -812,8 +841,9 @@ app.post("/api/v1/f3/repair", async (req, res) => {
         source: "api",
         model: F2_MODEL,
         verifier_model: EFFECTIVE_F3_MODEL,
-        repaired_count: replacedIds.size,
-        repaired_ids: Array.from(replacedIds).sort((a, b) => a - b),
+        repaired_count: passedRepairedIds.length,
+        repaired_ids: passedRepairedIds.sort((a, b) => a - b),
+        repaired_but_failed_verification_ids: failedRepairedIds.sort((a, b) => a - b),
         flagged_target_count: flaggedTargets.length,
         band,
         telemetry: {
