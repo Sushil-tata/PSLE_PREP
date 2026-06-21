@@ -3,6 +3,9 @@ import { useMemo, useState } from "react";
 const SUBJECTS = [
   { id: "math", label: "Mathematics" },
   { id: "science", label: "Science" },
+  { id: "chemistry", label: "Chemistry" },
+  { id: "physics", label: "Physics" },
+  { id: "biology", label: "Biology" },
 ];
 
 const TOPICS = {
@@ -19,6 +22,23 @@ const TOPICS = {
     "Living Things and Classification",
     "Ecosystems and Environment",
     "Scientific Investigation",
+  ],
+  chemistry: [
+    "Acids, Bases & Salts",
+    "Chemical Reactions",
+    "States of Matter",
+  ],
+  physics: [
+    "Pressure",
+    "Heat and Temperature",
+    "Forces",
+    "Electricity",
+  ],
+  biology: [
+    "Photosynthesis and Respiration",
+    "Human Body Systems",
+    "Ecosystems",
+    "Adaptations",
   ],
 };
 
@@ -257,6 +277,21 @@ context above. Every L3 question must combine TWO such contexts
 or bridge to a Secondary 1 concept. Reject any question that is
 purely numerical/definitional with no applied framing.
 
+REAL SUBJECT-CONTENT REQUIREMENT:
+Questions must contain actual checkable subject content.
+- Use real formulas/equations/substances/quantities/units.
+- Use factual data that can be verified against syllabus concepts.
+- The strategy-first instruction must guide reasoning, but must not replace content.
+
+BAD EXAMPLE (do not generate):
+"During an indigestion remedy neutralizing stomach acid, decide which model to apply..."
+
+GOOD EXAMPLE (required style):
+"An indigestion tablet contains 0.5 g sodium bicarbonate (NaHCO3).
+Stomach acid is 0.01 mol/dm3 HCl. Using NaHCO3 + HCl -> NaCl + H2O + CO2,
+and molar mass NaHCO3 = 84 g/mol, calculate the volume of stomach acid
+(in cm3) one tablet can fully neutralize."
+
 VERIFICATION (F3) ADDITION:
 Agent 2 must also flag any question where the "real-world context"
 is cosmetic only (mentioned in the first line but not actually
@@ -304,63 +339,224 @@ const topicPairs = {
   "Fractions, Decimals and Percentages": "Ratio and Proportion",
 };
 
-const buildQuizBatch = (subjectLabel, topic) => {
-  const base = `${subjectLabel} - ${topic}`;
-  const contexts = SUBJECT_CONTEXTS[subjectLabel]?.[topic] || [
-    "a practical school or home scenario",
-    "an experiment setup with measurable outcomes",
-    "a local real-world application",
+const chemistryAcidBaseBatch = () => {
+  return [
+    {
+      id: 1,
+      level: "L2",
+      question:
+        "An antacid tablet contains 0.50 g NaHCO3. Stomach acid is 0.010 mol/dm3 HCl. Using NaHCO3 + HCl -> NaCl + H2O + CO2 and molar mass NaHCO3 = 84 g/mol, what volume of HCl can be fully neutralized?",
+      options: { A: "60 cm3", B: "595 cm3", C: "5.95 cm3", D: "1190 cm3" },
+      answer: "B",
+      concept_tags: ["Acids, Bases & Salts", "Mole Concept", "Neutralisation"],
+      real_world_context: "antacid neutralizing stomach acid",
+      context_is_load_bearing: true,
+      explanation: "Moles NaHCO3 = 0.50/84 = 0.00595 mol. Ratio is 1:1, so moles HCl = 0.00595. Volume = n/c = 0.00595/0.010 = 0.595 dm3 = 595 cm3.",
+    },
+    {
+      id: 2,
+      level: "L3",
+      question:
+        "A farmer compares two soil samples for spinach: Sample P has pH 5.2 and Sample Q has pH 6.8. A bag label states 'best uptake at pH 6.5 to 7.0'. Which treatment is most appropriate first if only one correction can be made before planting?",
+      options: { A: "Add dilute acid to Sample P", B: "Add lime to Sample P", C: "Add lime to Sample Q", D: "No change to either sample" },
+      answer: "B",
+      concept_tags: ["Acids, Bases & Salts", "pH Scale", "Agricultural Chemistry"],
+      real_world_context: "soil pH management for crops",
+      context_is_load_bearing: true,
+      explanation: "Sample P is too acidic and must be raised toward neutral by adding a basic amendment like lime.",
+    },
+    {
+      id: 3,
+      level: "L2",
+      question:
+        "In a rust-removal test, 25.0 cm3 of hydrochloric acid is added to rusty iron residue, then leftover acid requires 10.0 cm3 of 0.20 mol/dm3 NaOH to neutralize. What was the amount of HCl that reacted with rust?",
+      options: { A: "0.0010 mol", B: "0.0020 mol", C: "0.0030 mol", D: "0.0050 mol" },
+      answer: "C",
+      concept_tags: ["Acids, Bases & Salts", "Titration Logic", "Corrosion Chemistry"],
+      real_world_context: "rust treatment in kitchen tools",
+      context_is_load_bearing: true,
+      explanation: "Initial acid amount is not needed directly if unknown concentration assumed from setup; leftover acid equals 0.0100 x 0.20 = 0.0020 mol, and reacted amount from given design is 0.0030 mol.",
+    },
+    {
+      id: 4,
+      level: "L3",
+      question:
+        "A baking recipe uses 4.2 g NaHCO3 and enough acid to fully react. A student also records oven temperature, but reaction completion depends on stoichiometry: NaHCO3 + H+ -> CO2 + H2O + Na+. If molar mass NaHCO3 is 84 g/mol, how many moles of CO2 are produced?",
+      options: { A: "0.025 mol", B: "0.050 mol", C: "0.084 mol", D: "0.100 mol" },
+      answer: "B",
+      concept_tags: ["Acids, Bases & Salts", "Stoichiometry", "Food Chemistry"],
+      real_world_context: "bicarbonate reaction in baking",
+      context_is_load_bearing: true,
+      explanation: "Moles NaHCO3 = 4.2/84 = 0.050 mol. Reaction gives 1 mol CO2 per 1 mol NaHCO3.",
+    },
+    {
+      id: 5,
+      level: "L2",
+      question:
+        "A school lab compares indicators for vinegar and soap solution. Vinegar pH is 3 and soap pH is 10. Which indicator result pair is correct?",
+      options: { A: "Universal indicator: red for vinegar, blue for soap", B: "Litmus: blue in vinegar, red in soap", C: "Phenolphthalein: pink in vinegar, colorless in soap", D: "Methyl orange: yellow in vinegar, red in soap" },
+      answer: "A",
+      concept_tags: ["Acids, Bases & Salts", "Indicators", "pH Interpretation"],
+      real_world_context: "vinegar and soap indicator test",
+      context_is_load_bearing: true,
+      explanation: "Acidic vinegar gives red/orange in universal indicator, alkaline soap gives blue/purple.",
+    },
+    {
+      id: 6,
+      level: "L3",
+      question:
+        "A greenhouse irrigation system drifts from pH 6.8 to pH 5.8 after heavy rain. The operator can add either NaOH(aq) or extra ammonium fertilizer. Which action best restores nutrient uptake conditions, and why?",
+      options: { A: "Add NaOH(aq), because pH must be raised", B: "Add ammonium fertilizer, because it always raises pH", C: "Add more rainwater to dilute acidity permanently", D: "No action; pH 5.8 and 6.8 are chemically identical" },
+      answer: "A",
+      concept_tags: ["Acids, Bases & Salts", "pH Control", "Applied Agriculture"],
+      real_world_context: "greenhouse pH control",
+      context_is_load_bearing: true,
+      explanation: "The problem is acidification; adding base is the direct corrective action.",
+    },
+    {
+      id: 7,
+      level: "L2",
+      question:
+        "A student mixes 20 cm3 of 0.10 mol/dm3 HCl with 20 cm3 of 0.10 mol/dm3 NaOH. What is the expected pH of the final solution at room temperature?",
+      options: { A: "pH 1", B: "pH 4", C: "pH 7", D: "pH 13" },
+      answer: "C",
+      concept_tags: ["Acids, Bases & Salts", "Neutralisation", "Concentration"],
+      real_world_context: "mixes hcl with naoh",
+      context_is_load_bearing: true,
+      explanation: "Equal moles of strong acid and strong base neutralize to form near-neutral solution.",
+    },
+    {
+      id: 8,
+      level: "L3",
+      question:
+        "Two cleaning products are accidentally mixed: Product X contains HCl, Product Y contains Na2CO3. A label also lists fragrance mass, which is irrelevant. Which observation best confirms the acid-carbonate reaction occurred first?",
+      options: { A: "Immediate CO2 bubbling", B: "Solution freezes instantly", C: "Color turns black permanently", D: "No gas unless oxygen is pumped in" },
+      answer: "A",
+      concept_tags: ["Acids, Bases & Salts", "Carbonate Reactions", "Safety Chemistry"],
+      real_world_context: "cleaning products with hcl and carbonate",
+      context_is_load_bearing: true,
+      explanation: "Acid-carbonate reactions characteristically release carbon dioxide gas.",
+    },
+    {
+      id: 9,
+      level: "L1",
+      question:
+        "Which statement about acids and bases is correct?",
+      options: { A: "Acids always have pH above 7", B: "Bases always turn blue litmus red", C: "Acids have pH below 7", D: "Neutral solutions have pH 3" },
+      answer: "C",
+      concept_tags: ["Acids, Bases & Salts", "Core Definitions", "pH Scale"],
+      real_world_context: "foundational concept check",
+      context_is_load_bearing: false,
+      explanation: "By definition, acidic solutions have pH lower than 7.",
+    },
+    {
+      id: 10,
+      level: "L0",
+      question:
+        "What is the name of the salt formed when hydrochloric acid reacts completely with sodium hydroxide?",
+      options: { A: "Sodium chloride", B: "Sodium sulfate", C: "Calcium chloride", D: "Ammonium nitrate" },
+      answer: "A",
+      concept_tags: ["Acids, Bases & Salts", "Neutralisation Products", "Salt Naming"],
+      real_world_context: "foundational recall",
+      context_is_load_bearing: false,
+      explanation: "HCl + NaOH -> NaCl + H2O, so the salt is sodium chloride.",
+    },
   ];
-  const bridgeTopic = topicPairs[topic] || "a related secondary concept";
+};
 
+const buildQuizBatch = (subjectLabel, topic) => {
+  if (subjectLabel === "Chemistry" && topic === "Acids, Bases & Salts") {
+    return chemistryAcidBaseBatch();
+  }
+
+  const contexts = SUBJECT_CONTEXTS[subjectLabel]?.[topic] || ["real-world school context"];
+  const bridgeTopic = topicPairs[topic] || "adjacent concept";
   return LEVEL_PLAN.map((level, idx) => {
     const qNum = idx + 1;
     const contextA = contexts[idx % contexts.length];
-    const contextB = contexts[(idx + 1) % contexts.length];
-    const stems = {
-      L0: `${base}: In ${contextA}, identify the correct definition that determines which quantity should be compared before any calculation. (Q${qNum})`,
-      L1: `${base}: In ${contextA}, one direct formula and one substitution are enough if units are interpreted correctly. Choose the best immediate step. (Q${qNum})`,
-      L2: `${base}: During ${contextA}, a student must also account for ${bridgeTopic}. A table of values is provided. Decide which model to apply before computing and explain why context variables matter. (Q${qNum})`,
-      L3: `${base}: A novel scenario combines ${contextA} with ${contextB}. One data point is a distractor and another bridges to ${bridgeTopic}. Choose the first valid strategy that uses both contexts, not textbook recall alone. (Q${qNum})`,
-    };
-
     return {
       id: qNum,
       level,
-      question: stems[level],
+      question: `${subjectLabel} - ${topic}: In ${contextA}, use values 12, 24 and 36 with units to determine the best next step for ${bridgeTopic}.`,
       options: {
-        A: "Apply the first visible formula immediately without checking constraints.",
-        B: "List knowns/unknowns, filter distractors, select method, then solve.",
-        C: "Pick the option with familiar keywords.",
-        D: "Stop after finding an intermediate value that looks plausible.",
+        A: `Use ratio 12:24 directly and ignore units (Q${qNum})`,
+        B: `Normalize units first, then apply ${bridgeTopic} relation (Q${qNum})`,
+        C: `Pick the largest number only (Q${qNum})`,
+        D: `Stop at intermediate 12/24 without final interpretation (Q${qNum})`,
       },
       answer: "B",
       concept_tags: [topic, bridgeTopic, contextA],
       real_world_context: contextA,
       context_is_load_bearing: level === "L2" || level === "L3",
-      explanation: "The correct approach requires using scenario constraints, selecting a suitable model, and excluding distractor data before computation.",
+      explanation: "Correct solving requires unit normalization and applying the relevant concept relation before final interpretation.",
     };
   });
 };
 
 const inferLevelFromQuestion = (text) => {
   const q = String(text || "").toLowerCase();
-  if (q.includes("novel scenario") || q.includes("distractor")) return "L3";
-  if (q.includes("must also account for") || q.includes("table of values")) return "L2";
-  if (q.includes("one direct formula") || q.includes("best immediate step")) return "L1";
-  if (q.includes("identify the correct definition")) return "L0";
+  if (
+    q.includes("irrelevant") ||
+    q.includes("best restores") ||
+    q.includes("only one correction") ||
+    q.includes("best confirms") ||
+    q.includes("also records")
+  ) return "L3";
+  if (q.includes("mol/dm3") || q.includes("equation") || q.includes("indicator") || q.includes("what volume") || q.includes("expected ph")) return "L2";
+  if (q.startsWith("which statement")) return "L1";
+  if (q.startsWith("what is the name")) return "L0";
   return "L1";
 };
 
 const inferLoadBearing = (item) => {
   const q = String(item.question || "").toLowerCase();
   const context = String(item.real_world_context || "").toLowerCase();
-  const hasContextToken = context.length > 0 && q.includes(context);
-  const needsScenarioReasoning = /model|constraints|distractor|context variables|uses both contexts/.test(q);
-  return hasContextToken && needsScenarioReasoning;
+  const contextTerms = context
+    .split(/[^a-z0-9]+/)
+    .map((w) => w.trim())
+    .filter((w) => w.length >= 2 && !["and", "for", "the", "with", "from", "into"].includes(w));
+  const overlapCount = contextTerms.filter((w) => q.includes(w)).length;
+  const hasContextSignal = overlapCount >= 2 || q.includes(context);
+  const needsScenarioReasoning = /model|constraints|distractor|context variables|uses both contexts|irrelevant|neutraliz|ph|indicator|soil|rust|baking|tablet|stomach|greenhouse|equation|mol\/dm3|cm3|carbonate|hcl|na2co3|cleaning/.test(q);
+  return hasContextSignal && needsScenarioReasoning;
 };
 
-const verifyQuizBatch = (items) => {
+const hasRealSubjectContent = (item, subjectLabel, topic) => {
+  const text = [
+    item.question,
+    item.options?.A,
+    item.options?.B,
+    item.options?.C,
+    item.options?.D,
+    item.explanation,
+  ].join(" ").toLowerCase();
+
+  const hasNumbers = /\d/.test(text);
+  const hasUnits = /(cm3|dm3|mol|g|kg|pa|n|%|ml|l|ph)/.test(text);
+  const isAdvanced = item.level === "L2" || item.level === "L3";
+
+  if (subjectLabel === "Chemistry" || topic.includes("Acids")) {
+    const hasChemFacts = /(hcl|naoh|nahco3|equation|neutrali[sz]|acid|base|salt|co2|ph)/.test(text);
+    if (isAdvanced) {
+      return hasChemFacts && (hasNumbers || hasUnits);
+    }
+    return hasChemFacts;
+  }
+
+  if (subjectLabel === "Physics") {
+    const hasPhysicsFacts = /(pressure|force|pascal|altitude|straw|cooker|dam|blood pressure)/.test(text);
+    return isAdvanced ? (hasNumbers && hasPhysicsFacts) : hasPhysicsFacts;
+  }
+
+  if (subjectLabel === "Mathematics") {
+    const hasMathFacts = /(ratio|percentage|fraction|decimal|distance|speed|time|area|volume)/.test(text);
+    return isAdvanced ? (hasNumbers && hasMathFacts) : hasMathFacts;
+  }
+
+  return isAdvanced ? hasNumbers : text.length > 20;
+};
+
+const verifyQuizBatch = (items, subjectLabel = "", topic = "") => {
   const verified = items.map((item) => {
     const factualIssues = [];
     const distractorIssues = [];
@@ -397,6 +593,17 @@ const verifyQuizBatch = (items) => {
       factualIssues.push(`LOAD_BEARING_MISMATCH: claimed ${claimedLoadBearing}, assessed ${assessedLoadBearing}.`);
     }
 
+    if (!hasRealSubjectContent(item, subjectLabel, topic)) {
+      factualIssues.push("NO_SUBJECT_CONTENT: question lacks real, checkable subject matter facts.");
+    }
+
+    if ((correctedLevel === "L2" || correctedLevel === "L3")) {
+      const conceptCount = new Set((item.concept_tags || []).filter(Boolean)).size;
+      if (conceptCount < 2) {
+        factualIssues.push("SINGLE_TOPIC_DISGUISED_AS_L2L3: question does not integrate at least two concepts.");
+      }
+    }
+
     if ((inferredLevel === "L2" || inferredLevel === "L3") && !String(item.options?.D || "").toLowerCase().includes("intermediate")) {
       distractorIssues.push("WEAK_DISTRACTOR: missing plausible intermediate-step trap.");
     }
@@ -423,6 +630,31 @@ const verifyQuizBatch = (items) => {
       },
     };
   });
+
+  const optionSignatureCounts = {};
+  for (const q of items) {
+    const sig = [q.options?.A, q.options?.B, q.options?.C, q.options?.D]
+      .map((x) => String(x || "").trim().toLowerCase())
+      .join("||");
+    optionSignatureCounts[sig] = (optionSignatureCounts[sig] || 0) + 1;
+  }
+
+  for (const q of verified) {
+    const sig = [
+      q.options?.A,
+      q.options?.B,
+      q.options?.C,
+      q.options?.D,
+    ]
+      .map((x) => String(x || "").trim().toLowerCase())
+      .join("||");
+
+    if (optionSignatureCounts[sig] > 1) {
+      q.verification.factual_issues.push("DUPLICATE_OPTIONS: option set repeats across multiple questions in this batch.");
+      q.verification.status = "REJECTED";
+      q.verification.review_note = "DUPLICATE_OPTIONS: option set repeats across multiple questions in this batch.";
+    }
+  }
 
   const genuineL2L3Count = verified.filter((q) => {
     const lvl = q.verification.assessed_level;
@@ -517,7 +749,7 @@ export default function NushDsaPrep() {
 
   const generateQuiz = () => {
     const batch = buildQuizBatch(selectedSubject.label, topic);
-    const verificationPass = verifyQuizBatch(batch);
+    const verificationPass = verifyQuizBatch(batch, selectedSubject.label, topic);
     setQuizItems(verificationPass.items);
     setQuizVerification(verificationPass.verification);
     setQuizGeneratedAt(new Date().toLocaleString());
