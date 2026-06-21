@@ -219,6 +219,73 @@ const buildQuizBatch = (subjectLabel, topic) => {
   });
 };
 
+const inferLevelFromQuestion = (text) => {
+  const q = String(text || "").toLowerCase();
+  if (q.includes("novel context") || q.includes("distractor")) return "L3";
+  if (q.includes("multi-step") || q.includes("combining two ideas")) return "L2";
+  if (q.includes("direct classroom-style") || q.includes("one substitution step")) return "L1";
+  if (q.includes("identify the correct definition")) return "L0";
+  return "L1";
+};
+
+const verifyQuizBatch = (items) => {
+  const verified = items.map((item) => {
+    const issues = [];
+    const inferredLevel = inferLevelFromQuestion(item.question);
+    const levelMismatch = inferredLevel !== item.level;
+
+    if (levelMismatch) {
+      issues.push(`Level mismatch detected: suggested ${inferredLevel}, received ${item.level}.`);
+    }
+
+    const hasOptions = item.options && item.options.A && item.options.B && item.options.C && item.options.D;
+    if (!hasOptions) {
+      issues.push("Option set incomplete. Requires A, B, C and D.");
+    }
+
+    if (!["A", "B", "C", "D"].includes(item.answer)) {
+      issues.push("Invalid answer key. Must be one of A, B, C or D.");
+    }
+
+    const optionValues = [item.options?.A, item.options?.B, item.options?.C, item.options?.D].filter(Boolean);
+    if (new Set(optionValues).size < 4) {
+      issues.push("Low-quality distractors detected: options are not distinct.");
+    }
+
+    const correctedLevel = levelMismatch ? inferredLevel : item.level;
+    const status = issues.length > 0 ? "Flagged" : "Clean";
+
+    return {
+      ...item,
+      level: correctedLevel,
+      verification: {
+        status,
+        issues,
+        originalLevel: item.level,
+        correctedLevel,
+      },
+    };
+  });
+
+  const flaggedCount = verified.filter((q) => q.verification.status === "Flagged").length;
+  const correctedCount = verified.filter((q) => q.verification.originalLevel !== q.verification.correctedLevel).length;
+  const batchStatus = flaggedCount === 0 ? "Clean" : "AI-corrected";
+  const trace =
+    flaggedCount === 0
+      ? "Verified in single pass; no issues detected."
+      : `Single verification pass flagged ${flaggedCount} item(s); corrected ${correctedCount} level tag(s).`;
+
+  return {
+    items: verified,
+    flaggedCount,
+    correctedCount,
+    verification: {
+      status: batchStatus,
+      label: trace,
+    },
+  };
+};
+
 function Section({ title, children }) {
   return (
     <section style={{ background: "#ffffff", border: "1px solid #dde3ec", borderRadius: 10, padding: 16 }}>
@@ -235,6 +302,7 @@ export default function NushDsaPrep() {
   const [generatedAt, setGeneratedAt] = useState(null);
   const [quizItems, setQuizItems] = useState([]);
   const [quizGeneratedAt, setQuizGeneratedAt] = useState(null);
+  const [quizVerification, setQuizVerification] = useState(null);
 
   const selectedSubject = useMemo(
     () => SUBJECTS.find((s) => s.id === subjectId) || SUBJECTS[0],
@@ -251,6 +319,7 @@ export default function NushDsaPrep() {
     setGeneratedAt(null);
     setQuizItems([]);
     setQuizGeneratedAt(null);
+    setQuizVerification(null);
   };
 
   const generateNotes = () => {
@@ -274,7 +343,9 @@ export default function NushDsaPrep() {
 
   const generateQuiz = () => {
     const batch = buildQuizBatch(selectedSubject.label, topic);
-    setQuizItems(batch);
+    const verificationPass = verifyQuizBatch(batch);
+    setQuizItems(verificationPass.items);
+    setQuizVerification(verificationPass.verification);
     setQuizGeneratedAt(new Date().toLocaleString());
   };
 
@@ -283,7 +354,7 @@ export default function NushDsaPrep() {
       <header style={{ marginBottom: 18 }}>
         <h1 style={{ margin: 0, color: "#0b2a44" }}>PSLE to NUSH DSA Prep</h1>
         <p style={{ margin: "8px 0 0", color: "#3d556f" }}>
-          Milestone 1 scope: Topic Notes Generator with structured, trust-marked output.
+          Milestone scope: Notes, level-tagged quiz generation, and one verification pass.
         </p>
       </header>
 
@@ -406,10 +477,21 @@ export default function NushDsaPrep() {
             <p style={{ margin: "0 0 12px", color: "#3a526a" }}>
               Exactly 10 MCQs. Level distribution: L2/L3 dominant.
             </p>
+            {quizVerification && (
+              <div style={{ marginBottom: 12, padding: 10, borderRadius: 8, background: "#f7fafc", border: "1px solid #d7e2ef" }}>
+                <p style={{ margin: 0 }}>
+                  <strong>Trust Status:</strong> {quizVerification.status}
+                </p>
+                <p style={{ margin: "6px 0 0" }}>
+                  <strong>Trace:</strong> {quizVerification.label}
+                </p>
+              </div>
+            )}
 
             <div style={{ display: "grid", gap: 10 }}>
               {quizItems.map((q) => {
                 const badge = levelBadge[q.level] || levelBadge.L0;
+                const hasFlags = q.verification?.status === "Flagged";
                 return (
                   <article key={q.id} style={{ border: "1px solid #dde3ec", borderRadius: 10, padding: 12 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
@@ -438,6 +520,23 @@ export default function NushDsaPrep() {
                     <p style={{ margin: 0 }}>
                       <strong>Answer Key:</strong> {q.answer}
                     </p>
+                    {hasFlags && (
+                      <div style={{ marginTop: 8, padding: 8, borderRadius: 8, border: "1px solid #ffd8b1", background: "#fff7ed" }}>
+                        <p style={{ margin: "0 0 6px", color: "#9a3412" }}>
+                          <strong>Verifier Flags:</strong>
+                        </p>
+                        <ul style={{ margin: "0 0 6px", paddingLeft: 18 }}>
+                          {q.verification.issues.map((issue, idx) => (
+                            <li key={`${q.id}-issue-${idx}`}>{issue}</li>
+                          ))}
+                        </ul>
+                        {q.verification.originalLevel !== q.verification.correctedLevel && (
+                          <p style={{ margin: 0 }}>
+                            <strong>Level correction:</strong> {q.verification.originalLevel} to {q.verification.correctedLevel}
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </article>
                 );
               })}
