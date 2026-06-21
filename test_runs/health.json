@@ -1,0 +1,1 @@
+{"ok":true,"service":"nush-dsa-proxy","model_config":{"f2_model":"claude-sonnet-4-5","f3_model_requested":"claude-sonnet-4-5","f3_model_effective":"claude-sonnet-4-5","verifier_guardrail_applied":false},"cache_backend":"memory","cache_size":0,"redis_connected":false}

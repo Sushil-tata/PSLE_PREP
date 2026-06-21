@@ -4,7 +4,16 @@
   "version": "0.1.0",
   "description": "NUSH DSA prep project",
   "scripts": {
-    "start": "echo \"Add your start command\"",
+    "dev:server": "node --watch server/index.js",
+    "start:server": "node server/index.js",
+    "start": "npm run start:server",
     "test": "echo \"Add your test command\""
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "jsonrepair": "^3.8.0",
+    "redis": "^4.7.0"
   }
 }
