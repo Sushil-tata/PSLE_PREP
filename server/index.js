@@ -391,9 +391,61 @@ function buildF3Prompt({ subjectLabel, topic, band, items }) {
     gradeBandPrompt(band),
     "Review these MCQs strictly for load-bearing context, factual rigor, and distractor quality:",
     JSON.stringify(compactItems),
+    "For EACH review_note, the final line must be exactly one machine-parseable verdict: FINAL_VERDICT: VERIFIED or FINAL_VERDICT: FLAGGED or FINAL_VERDICT: REJECTED.",
+    "The FINAL_VERDICT line must appear exactly once at the end of review_note and nowhere else.",
     "Output strict JSON only:",
     "{\"batch_verdict\":\"PASS|PARTIAL|FAIL\",\"trace\":string,\"reviews\":[{\"id\":number,\"status\":\"VERIFIED|FLAGGED|REJECTED\",\"assessed_level\":\"L0|L1|L2|L3\",\"assessed_load_bearing\":boolean|null,\"factual_issues\":string[],\"distractor_issues\":string[],\"review_note\":string}]}",
   ].join("\n");
+}
+
+const FINAL_VERDICT_LINE_REGEX = /^FINAL_VERDICT:\s*(VERIFIED|FLAGGED|REJECTED)\s*$/gm;
+
+function extractFinalVerdict(reviewNote) {
+  const note = String(reviewNote || "");
+  FINAL_VERDICT_LINE_REGEX.lastIndex = 0;
+  let lastVerdict = null;
+  let match = FINAL_VERDICT_LINE_REGEX.exec(note);
+
+  while (match) {
+    lastVerdict = String(match[1] || "").toUpperCase();
+    match = FINAL_VERDICT_LINE_REGEX.exec(note);
+  }
+
+  return lastVerdict;
+}
+
+function normalizeSingleF3Review(rawReview) {
+  const review = rawReview && typeof rawReview === "object" ? { ...rawReview } : {};
+  const finalVerdict = extractFinalVerdict(review.review_note);
+  review.status = finalVerdict || "REJECTED";
+
+  if (!finalVerdict) {
+    const factualIssues = Array.isArray(review.factual_issues) ? [...review.factual_issues] : [];
+    factualIssues.push("MISSING_FINAL_VERDICT_LINE");
+    review.factual_issues = factualIssues;
+  }
+
+  return review;
+}
+
+function normalizeF3Reviews(rawReviews) {
+  if (!Array.isArray(rawReviews)) return [];
+
+  const byId = new Map();
+  const orderedIds = [];
+
+  for (const rawReview of rawReviews) {
+    const id = Number(rawReview?.id);
+    if (!Number.isFinite(id) || id <= 0) continue;
+
+    if (!byId.has(id)) {
+      orderedIds.push(id);
+    }
+
+    byId.set(id, normalizeSingleF3Review(rawReview));
+  }
+
+  return orderedIds.map((id) => byId.get(id));
 }
 
 function buildF2RepairPrompt({ subjectLabel, topic, band, targets, qualityHints = [], avoidStems = [] }) {
@@ -617,11 +669,13 @@ app.post("/api/v1/f3/verify", async (req, res) => {
       temperature: F3_TEMPERATURE,
     });
 
+    const normalizedReviews = normalizeF3Reviews(data.reviews);
+
     const responsePayload = {
       review: {
         batch_verdict: data.batch_verdict || "PARTIAL",
         trace: data.trace || "Model review completed.",
-        reviews: Array.isArray(data.reviews) ? data.reviews : [],
+        reviews: normalizedReviews,
       },
       meta: {
         source: "api",
@@ -666,8 +720,9 @@ app.post("/api/v1/f3/repair", async (req, res) => {
   }
 
   try {
+    const normalizedInputReviews = normalizeF3Reviews(review.reviews);
     const reviewById = new Map();
-    for (const r of review.reviews) {
+    for (const r of normalizedInputReviews) {
       const id = Number(r?.id);
       if (id > 0) reviewById.set(id, r);
     }
@@ -706,12 +761,14 @@ app.post("/api/v1/f3/repair", async (req, res) => {
         temperature: F3_TEMPERATURE,
       });
 
+      const normalizedReviews = normalizeF3Reviews(data.reviews);
+
       return res.json({
         items,
         review: {
           batch_verdict: data.batch_verdict || "PASS",
           trace: data.trace || "No flagged items to repair.",
-          reviews: Array.isArray(data.reviews) ? data.reviews : [],
+          reviews: normalizedReviews,
         },
         meta: {
           source: "api",
@@ -817,7 +874,7 @@ app.post("/api/v1/f3/repair", async (req, res) => {
       temperature: F3_TEMPERATURE,
     });
 
-    const verifiedReviews = Array.isArray(verified.reviews) ? verified.reviews : [];
+    const verifiedReviews = normalizeF3Reviews(verified.reviews);
     const verifiedReviewById = new Map(
       verifiedReviews
         .map((r) => [Number(r?.id), r])
@@ -836,7 +893,7 @@ app.post("/api/v1/f3/repair", async (req, res) => {
       review: {
         batch_verdict: verified.batch_verdict || "PARTIAL",
         trace: verified.trace || "Repair and verification completed.",
-        reviews: Array.isArray(verified.reviews) ? verified.reviews : [],
+        reviews: verifiedReviews,
       },
       meta: {
         source: "api",
