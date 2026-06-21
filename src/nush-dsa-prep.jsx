@@ -183,6 +183,42 @@ const fallbackNotes = (subjectLabel, topic) => ({
   ],
 });
 
+const LEVEL_PLAN = ["L2", "L3", "L2", "L3", "L2", "L3", "L2", "L3", "L1", "L0"];
+
+const levelBadge = {
+  L0: { bg: "#eef2f7", fg: "#334155" },
+  L1: { bg: "#e8f1ff", fg: "#1d4ed8" },
+  L2: { bg: "#fff5e6", fg: "#b45309" },
+  L3: { bg: "#f2eaff", fg: "#6d28d9" },
+};
+
+const buildQuizBatch = (subjectLabel, topic) => {
+  const base = `${subjectLabel} - ${topic}`;
+
+  return LEVEL_PLAN.map((level, idx) => {
+    const qNum = idx + 1;
+    const stems = {
+      L0: `${base}: Identify the correct definition used in this topic before solving any question.`,
+      L1: `${base}: A direct classroom-style question where one formula and one substitution step are sufficient.`,
+      L2: `${base}: A multi-step school scenario combining two ideas from the topic. Choose the best method before computing.`,
+      L3: `${base}: A novel context includes one distractor data point. Decide what to ignore, pick a strategy, and justify the first valid step.`,
+    };
+
+    return {
+      id: qNum,
+      level,
+      question: `${stems[level]} (Q${qNum})`,
+      options: {
+        A: "Apply the first visible formula immediately without checking constraints.",
+        B: "List knowns/unknowns, filter distractors, select method, then solve.",
+        C: "Pick the option with familiar keywords.",
+        D: "Stop after finding an intermediate value that looks plausible.",
+      },
+      answer: "B",
+    };
+  });
+};
+
 function Section({ title, children }) {
   return (
     <section style={{ background: "#ffffff", border: "1px solid #dde3ec", borderRadius: 10, padding: 16 }}>
@@ -197,6 +233,8 @@ export default function NushDsaPrep() {
   const [topic, setTopic] = useState(TOPICS.math[0]);
   const [notes, setNotes] = useState(null);
   const [generatedAt, setGeneratedAt] = useState(null);
+  const [quizItems, setQuizItems] = useState([]);
+  const [quizGeneratedAt, setQuizGeneratedAt] = useState(null);
 
   const selectedSubject = useMemo(
     () => SUBJECTS.find((s) => s.id === subjectId) || SUBJECTS[0],
@@ -211,6 +249,8 @@ export default function NushDsaPrep() {
     setTopic(nextTopics[0] || "");
     setNotes(null);
     setGeneratedAt(null);
+    setQuizItems([]);
+    setQuizGeneratedAt(null);
   };
 
   const generateNotes = () => {
@@ -230,6 +270,12 @@ export default function NushDsaPrep() {
       },
     });
     setGeneratedAt(new Date().toLocaleString());
+  };
+
+  const generateQuiz = () => {
+    const batch = buildQuizBatch(selectedSubject.label, topic);
+    setQuizItems(batch);
+    setQuizGeneratedAt(new Date().toLocaleString());
   };
 
   return (
@@ -282,6 +328,24 @@ export default function NushDsaPrep() {
         >
           Generate Notes
         </button>
+
+        <button
+          type="button"
+          onClick={generateQuiz}
+          style={{
+            marginTop: 12,
+            marginLeft: 10,
+            border: "1px solid #0f62fe",
+            background: "#ffffff",
+            color: "#0f62fe",
+            padding: "10px 16px",
+            borderRadius: 8,
+            cursor: "pointer",
+            fontWeight: 600,
+          }}
+        >
+          Generate 10-Question Quiz
+        </button>
       </Section>
 
       {notes && (
@@ -331,6 +395,53 @@ export default function NushDsaPrep() {
             <p style={{ margin: "8px 0 0" }}>
               <strong>Trace:</strong> {notes.verification.label}
             </p>
+          </Section>
+        </div>
+      )}
+
+      {quizItems.length > 0 && (
+        <div style={{ marginTop: 16, display: "grid", gap: 12 }}>
+          <Section title={`Quiz Output: ${selectedSubject.label} - ${topic}`}>
+            <p style={{ margin: "0 0 10px", color: "#3a526a" }}>Generated: {quizGeneratedAt}</p>
+            <p style={{ margin: "0 0 12px", color: "#3a526a" }}>
+              Exactly 10 MCQs. Level distribution: L2/L3 dominant.
+            </p>
+
+            <div style={{ display: "grid", gap: 10 }}>
+              {quizItems.map((q) => {
+                const badge = levelBadge[q.level] || levelBadge.L0;
+                return (
+                  <article key={q.id} style={{ border: "1px solid #dde3ec", borderRadius: 10, padding: 12 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                      <strong>Q{q.id}</strong>
+                      <span
+                        style={{
+                          background: badge.bg,
+                          color: badge.fg,
+                          borderRadius: 999,
+                          padding: "2px 8px",
+                          fontSize: 12,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {q.level}
+                      </span>
+                    </div>
+
+                    <p style={{ marginTop: 0 }}>{q.question}</p>
+                    <ol type="A" style={{ margin: "8px 0", paddingLeft: 22 }}>
+                      <li>{q.options.A}</li>
+                      <li>{q.options.B}</li>
+                      <li>{q.options.C}</li>
+                      <li>{q.options.D}</li>
+                    </ol>
+                    <p style={{ margin: 0 }}>
+                      <strong>Answer Key:</strong> {q.answer}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
           </Section>
         </div>
       )}
