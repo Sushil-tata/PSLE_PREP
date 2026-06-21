@@ -300,10 +300,12 @@ is cosmetic only (mentioned in the first line but not actually
 required to solve the problem). Label this as COSMETIC_CONTEXT
 in the flag output.`;
 
-const QUIZ_PROXY_URL = import.meta.env.VITE_QUIZ_PROXY_URL || "http://localhost:8787";
-const QUIZ_PROXY_TIMEOUT_MS = Number(import.meta.env.VITE_QUIZ_PROXY_TIMEOUT_MS || 15000);
-const AUTO_REGEN_MAX_ATTEMPTS = Number(import.meta.env.VITE_AUTO_REGEN_MAX_ATTEMPTS || 3);
-const AUTO_REGEN_TOKEN_BUDGET = Number(import.meta.env.VITE_AUTO_REGEN_TOKEN_BUDGET || 7000);
+// QUIZ_PROXY_URL is set to the deployed Render backend.
+// No Vite env vars — this file is designed to run directly as a Claude artifact.
+const QUIZ_PROXY_URL = "http://localhost:8787"; // replaced with live URL after deployment
+const QUIZ_PROXY_TIMEOUT_MS = 120000; // 2 min — covers Render free-tier cold start + LLM generation
+const AUTO_REGEN_MAX_ATTEMPTS = 3;
+const AUTO_REGEN_TOKEN_BUDGET = 7000;
 const SERVER_ENABLED = Boolean(QUIZ_PROXY_URL);
 
 const levelBadge = {

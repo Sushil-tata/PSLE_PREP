@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: psle-prep-backend
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: F2_MODEL
+        value: claude-sonnet-4-5
+      - key: F3_MODEL
+        value: claude-sonnet-4-5
+      - key: F2_MAX_TOKENS
+        value: "3000"
+      - key: F3_MAX_TOKENS
+        value: "8000"
+      - key: F2_CHUNK_SIZE
+        value: "5"
+      - key: F2_MAX_CALLS
+        value: "4"
+      - key: F2_RECOVERY_CALLS
+        value: "1"
+      - key: F2_CHUNK_MAX_TOKENS
+        value: "3000"
+      - key: F2_TEMPERATURE
+        value: "0.2"
+      - key: F3_TEMPERATURE
+        value: "0.1"
+      - key: QUIZ_CACHE_TTL_MS
+        value: "600000"
