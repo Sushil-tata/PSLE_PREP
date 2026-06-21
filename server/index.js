@@ -295,6 +295,13 @@ function normalizeF2Item(raw, fallbackId) {
 
   return {
     id: Number(raw?.id) || fallbackId,
+    givens: Array.isArray(raw?.givens)
+      ? raw.givens.map((g) => ({
+          name: String(g?.name || "").trim(),
+          value: String(g?.value ?? "").trim(),
+          unit: String(g?.unit || "").trim(),
+        }))
+      : [],
     level: ["L0", "L1", "L2", "L3"].includes(level) ? level : "L1",
     question: String(raw?.question || "").trim(),
     options,
@@ -358,24 +365,33 @@ function buildF2Prompt({ subjectLabel, topic, band, count, qualityHints = [], av
     ? `Do not repeat these stems/fragments: ${avoidStems.join(" || ")}.`
     : "";
 
+  const needsUnitChain = /physics|chemistry/i.test(subjectLabel);
+
   return [
     `Generate exactly ${count} MCQs for ${subjectLabel} > ${topic}.`,
     gradeBandPrompt(band),
     distributionLine,
     hintLine,
     avoidLine,
+    // Fix 1: givens-first — forces explicit commitment to all quantities before prose is written
+    "GIVENS-FIRST: For every word problem with numeric calculation, populate the 'givens' array with ALL quantities used in the solution (name, value, unit) before writing the question stem. The stem may only reference quantities that appear in givens. Compute the answer strictly from the givens list.",
+    // Fix 3: self-consistency check — catches sub-quantity > parent-total class of errors
+    "SELF-CONSISTENCY: After listing givens, derive and restate every dependent quantity inline, e.g. 'total=480, 65% of total=312, remainder=168'. If any quantity in the stem, options, or explanation contradicts a derived value, regenerate that question entirely before outputting.",
+    // Fix 2: explicit unit-chain — targets systematic N/cm²↔Pa and similar conversion errors
+    needsUnitChain ? "UNIT CHAIN: For any conversion between units (N/cm² to Pa, cm to m, mL to L, etc.) write the conversion factor explicitly in the explanation, e.g. '1 N/cm² = 10 000 Pa' or '1 m² = 10 000 cm²'. Never use 1 000 as the factor between N/cm² and Pa." : "",
     "L2/L3 must integrate at least two concepts and require applied reasoning.",
     "Reject cosmetic context, keyword-matchable stems, and weak distractors.",
     "STRICT: no duplicate questions, no duplicate option sets, no incomplete options, and no non-P5 scope drift.",
     "Each L2/L3 must contain one plausible intermediate-step trap option.",
     "Output strict JSON only using:",
-    "{\"items\":[{\"id\":number,\"level\":\"L0|L1|L2|L3\",\"question\":string,\"options\":{\"A\":string,\"B\":string,\"C\":string,\"D\":string},\"answer\":\"A|B|C|D\",\"concept_tags\":string[],\"real_world_context\":string,\"context_is_load_bearing\":boolean,\"explanation\":string}]}",
+    "{\"items\":[{\"id\":number,\"givens\":[{\"name\":string,\"value\":string,\"unit\":string}],\"level\":\"L0|L1|L2|L3\",\"question\":string,\"options\":{\"A\":string,\"B\":string,\"C\":string,\"D\":string},\"answer\":\"A|B|C|D\",\"concept_tags\":string[],\"real_world_context\":string,\"context_is_load_bearing\":boolean,\"explanation\":string}]}",
   ].filter(Boolean).join("\n");
 }
 
 function buildF3Prompt({ subjectLabel, topic, band, items }) {
   const compactItems = (items || []).map((q) => ({
     id: q.id,
+    givens: q.givens,
     level: q.level,
     question: q.question,
     options: q.options,
@@ -461,6 +477,8 @@ function buildF2RepairPrompt({ subjectLabel, topic, band, targets, qualityHints 
     ? `Do not repeat these stems/fragments: ${avoidStems.join(" || ")}.`
     : "";
 
+  const needsUnitChain = /physics|chemistry/i.test(subjectLabel);
+
   return [
     `Regenerate exactly ${targets.length} MCQs for ${subjectLabel} > ${topic}.`,
     gradeBandPrompt(band),
@@ -468,9 +486,12 @@ function buildF2RepairPrompt({ subjectLabel, topic, band, targets, qualityHints 
     `Targets: ${targetLine}`,
     hintLine,
     avoidLine,
+    "GIVENS-FIRST: Populate the 'givens' array with ALL quantities used in the solution before writing the stem. The stem may only reference quantities in givens.",
+    "SELF-CONSISTENCY: Derive and restate every dependent quantity inline (e.g. 'total=480, 65% of total=312, remainder=168'). If any value in stem, options, or explanation contradicts a derived value, regenerate before outputting.",
+    needsUnitChain ? "UNIT CHAIN: Write every unit conversion factor explicitly in the explanation, e.g. '1 N/cm² = 10 000 Pa'. Never use 1 000 as the factor between N/cm² and Pa." : "",
     "STRICT: no duplicates, complete options, valid answer key, real-world context required.",
     "Output strict JSON only using:",
-    "{\"items\":[{\"id\":number,\"level\":\"L0|L1|L2|L3\",\"question\":string,\"options\":{\"A\":string,\"B\":string,\"C\":string,\"D\":string},\"answer\":\"A|B|C|D\",\"concept_tags\":string[],\"real_world_context\":string,\"context_is_load_bearing\":boolean,\"explanation\":string}]}",
+    "{\"items\":[{\"id\":number,\"givens\":[{\"name\":string,\"value\":string,\"unit\":string}],\"level\":\"L0|L1|L2|L3\",\"question\":string,\"options\":{\"A\":string,\"B\":string,\"C\":string,\"D\":string},\"answer\":\"A|B|C|D\",\"concept_tags\":string[],\"real_world_context\":string,\"context_is_load_bearing\":boolean,\"explanation\":string}]}",
   ].filter(Boolean).join("\n");
 }
 
