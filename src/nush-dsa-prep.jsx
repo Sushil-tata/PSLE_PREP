@@ -999,6 +999,7 @@ export default function NushDsaPrep() {
   const [quizRunMeta, setQuizRunMeta] = useState(null);
   const [qualityScorecard, setQualityScorecard] = useState(null);
   const [publishStatus, setPublishStatus] = useState(null);
+  const [adminMode, setAdminMode] = useState(false);
 
   const selectedSubject = useMemo(
     () => SUBJECTS.find((s) => s.id === subjectId) || SUBJECTS[0],
@@ -1152,11 +1153,31 @@ export default function NushDsaPrep() {
 
   return (
     <div style={{ maxWidth: 980, margin: "0 auto", padding: 24, fontFamily: "ui-sans-serif, system-ui, -apple-system, Segoe UI, Helvetica, Arial" }}>
-      <header style={{ marginBottom: 18 }}>
-        <h1 style={{ margin: 0, color: "#0b2a44" }}>PSLE to NUSH DSA Prep</h1>
-        <p style={{ margin: "8px 0 0", color: "#3d556f" }}>
-          Milestone scope: Notes, level-tagged quiz generation, and one verification pass.
-        </p>
+      <header style={{ marginBottom: 18, display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+        <div>
+          <h1 style={{ margin: 0, color: "#0b2a44" }}>PSLE / NUSH-DSA Prep</h1>
+          <p style={{ margin: "8px 0 0", color: "#3d556f" }}>
+            AI-generated practice questions for PSLE and NUSH DSA selection.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setAdminMode((v) => !v)}
+          style={{
+            marginTop: 4,
+            flexShrink: 0,
+            border: "1px solid #94a3b8",
+            background: adminMode ? "#1e3a5f" : "#f8fafc",
+            color: adminMode ? "#e2e8f0" : "#475569",
+            padding: "6px 14px",
+            borderRadius: 6,
+            cursor: "pointer",
+            fontSize: 13,
+            fontWeight: 500,
+          }}
+        >
+          {adminMode ? "Student view" : "Parent / Admin view"}
+        </button>
       </header>
 
       <Section title="Topic Notes Generator">
@@ -1278,14 +1299,16 @@ export default function NushDsaPrep() {
             </ul>
           </Section>
 
-          <Section title="Trust Label">
-            <p style={{ margin: 0 }}>
-              <strong>Status:</strong> {notes.verification.status}
-            </p>
-            <p style={{ margin: "8px 0 0" }}>
-              <strong>Trace:</strong> {notes.verification.label}
-            </p>
-          </Section>
+          {adminMode && (
+            <Section title="Trust Label">
+              <p style={{ margin: 0 }}>
+                <strong>Status:</strong> {notes.verification.status}
+              </p>
+              <p style={{ margin: "8px 0 0" }}>
+                <strong>Trace:</strong> {notes.verification.label}
+              </p>
+            </Section>
+          )}
         </div>
       )}
 
@@ -1299,7 +1322,7 @@ export default function NushDsaPrep() {
             <p style={{ margin: "0 0 12px", color: "#3a526a" }}>
               Learner band: {learnerBand}
             </p>
-            {quizRunMeta && (
+            {adminMode && quizRunMeta && (
               <div style={{ marginBottom: 12, padding: 10, borderRadius: 8, background: "#f8fafc", border: "1px solid #dbe7f3" }}>
                 <p style={{ margin: 0 }}>
                   <strong>F2 Source:</strong> {quizRunMeta.f2?.source} {quizRunMeta.f2?.model ? `(${quizRunMeta.f2.model})` : ""}
@@ -1332,7 +1355,7 @@ export default function NushDsaPrep() {
                 )}
               </div>
             )}
-            {quizVerification && (
+            {adminMode && quizVerification && (
               <div style={{ marginBottom: 12, padding: 10, borderRadius: 8, background: "#f7fafc", border: "1px solid #d7e2ef" }}>
                 <p style={{ margin: 0 }}>
                   <strong>Batch Verdict:</strong> {quizVerification.status}
@@ -1343,7 +1366,7 @@ export default function NushDsaPrep() {
               </div>
             )}
 
-            {quizVerification?.status === "PARTIAL" && (
+            {adminMode && quizVerification?.status === "PARTIAL" && (
               <div style={{ marginBottom: 12, padding: 10, borderRadius: 8, background: "#fffbeb", border: "1px solid #fde68a" }}>
                 <strong>{quizVerification.label}</strong>
               </div>
@@ -1352,7 +1375,9 @@ export default function NushDsaPrep() {
             {quizVerification?.status === "FAIL" && (
               <div style={{ marginBottom: 12, padding: 10, borderRadius: 8, background: "#fef2f2", border: "1px solid #fecaca" }}>
                 <p style={{ margin: 0 }}>
-                  This batch did not meet the L2/L3 depth requirement. Click "Try Again" to regenerate, or review flagged questions below.
+                  {adminMode
+                    ? "This batch did not meet the L2/L3 depth requirement. Click \"Try Again\" to regenerate, or review flagged questions below."
+                    : "We couldn't prepare a quiz to our quality standard. Please try again."}
                 </p>
                 <button
                   type="button"
@@ -1364,11 +1389,13 @@ export default function NushDsaPrep() {
               </div>
             )}
 
-            <p style={{ margin: "0 0 12px", color: "#3a526a" }}>
-              Session verdict counts: PASS {verdictStats.PASS} | PARTIAL {verdictStats.PARTIAL} | FAIL {verdictStats.FAIL}
-            </p>
+            {adminMode && (
+              <p style={{ margin: "0 0 12px", color: "#3a526a" }}>
+                Session verdict counts: PASS {verdictStats.PASS} | PARTIAL {verdictStats.PARTIAL} | FAIL {verdictStats.FAIL}
+              </p>
+            )}
 
-            {qualityScorecard && (
+            {adminMode && qualityScorecard && (
               <div style={{ marginBottom: 12, padding: 10, borderRadius: 8, background: "#f8fafc", border: "1px solid #dbe7f3" }}>
                 <p style={{ margin: 0 }}>
                   <strong>Band Quality Scorecard:</strong> {qualityScorecard.score}/100 (required {qualityScorecard.required} for {qualityScorecard.band})
@@ -1434,7 +1461,9 @@ export default function NushDsaPrep() {
                           fontWeight: 700,
                         }}
                       >
-                        {q.verification?.status || "VERIFIED"}
+                        {adminMode
+                          ? (q.verification?.status || "VERIFIED")
+                          : (q.verification?.status === "VERIFIED" ? "✓ Verified" : "Needs review")}
                       </span>
                     </div>
 
@@ -1451,16 +1480,20 @@ export default function NushDsaPrep() {
                     <p style={{ margin: "6px 0 0" }}>
                       <strong>Concept Tags:</strong> {(q.concept_tags || []).join(", ")}
                     </p>
-                    <p style={{ margin: "6px 0 0" }}>
-                      <strong>Real-world Context:</strong> {q.real_world_context}
-                    </p>
-                    <p style={{ margin: "6px 0 0" }}>
-                      <strong>Load-bearing (claimed):</strong> {String(q.context_is_load_bearing)}
-                    </p>
+                    {adminMode && (
+                      <p style={{ margin: "6px 0 0" }}>
+                        <strong>Real-world Context:</strong> {q.real_world_context}
+                      </p>
+                    )}
+                    {adminMode && (
+                      <p style={{ margin: "6px 0 0" }}>
+                        <strong>Load-bearing (claimed):</strong> {String(q.context_is_load_bearing)}
+                      </p>
+                    )}
                     <p style={{ margin: "6px 0 0" }}>
                       <strong>Explanation:</strong> {q.explanation}
                     </p>
-                    {hasFlags && (
+                    {adminMode && hasFlags && (
                       <div style={{ marginTop: 8, padding: 8, borderRadius: 8, border: "1px solid #ffd8b1", background: "#fff7ed" }}>
                         <p style={{ margin: "0 0 6px", color: "#9a3412" }}>
                           <strong>Verifier Flags:</strong>
