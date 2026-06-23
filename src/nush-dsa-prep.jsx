@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 const SUBJECTS = [
   { id: "math", label: "Mathematics" },
@@ -984,7 +984,40 @@ function Section({ title, children }) {
   );
 }
 
-export default function NushDsaPrep() {
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  componentDidCatch(error, info) {
+    console.error("App render error:", error, info?.componentStack);
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ padding: 24, fontFamily: "ui-sans-serif, system-ui, sans-serif" }}>
+          <h2 style={{ color: "#b91c1c", margin: "0 0 12px" }}>Something went wrong</h2>
+          <pre style={{ background: "#fef2f2", padding: 12, borderRadius: 8, fontSize: 13, color: "#7f1d1d", whiteSpace: "pre-wrap", overflowX: "auto" }}>
+            {String(this.state.error)}
+          </pre>
+          <button
+            type="button"
+            onClick={() => this.setState({ error: null })}
+            style={{ marginTop: 12, padding: "8px 16px", background: "#1d4ed8", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer" }}
+          >
+            Try again
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function NushDsaPrep() {
   const [subjectId, setSubjectId] = useState("math");
   const [topic, setTopic] = useState(TOPICS.math[0]);
   const [learnerBand, setLearnerBand] = useState("P5");
@@ -1514,5 +1547,13 @@ export default function NushDsaPrep() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <NushDsaPrep />
+    </ErrorBoundary>
   );
 }
